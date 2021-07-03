@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from db import database
-from users.router import router as user_router
+from users.router import router as users_router
+from answer.router import router as answer_router
 from starlette.requests import Request
 
 
@@ -20,7 +21,9 @@ async def shutdown():
 
 
 # users routerを登録する。
-app.include_router(user_router)
+app.include_router(users_router)
+# answer routerを登録する。
+app.include_router(answer_router)
 
 
 # middleware state.connectionにdatabaseオブジェクトをセットする。
