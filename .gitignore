@@ -3,3 +3,4 @@ __pycache__/
 *.csr
 *.key
 /db_data/fastapi/
+answer/script_files/*

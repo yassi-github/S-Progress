@@ -4,7 +4,7 @@ from sqlalchemy import Column, Table, Integer, String, Boolean
 from db import metadata, engine
 
 
-answers = Table(
+answers_table = Table(
     "answers",
     metadata,
     Column("problem_id", Integer, primary_key=True, index=True),
