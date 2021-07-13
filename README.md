@@ -1,11 +1,9 @@
 # S-Progress
 
-# prepare
+# usage
 
 ```bash
-openssl genrsa 4096 > docker_conf/nginx/ssl/server.key
-openssl req -new -key docker_conf/nginx/ssl/server.key > docker_conf/nginx/ssl/server.csr
-openssl x509 -req -days 3650 -signkey docker_conf/nginx/ssl/server.key < docker_conf/nginx/ssl/server.csr > docker_conf/nginx/ssl/server.crt
+sudo ./build.sh
 ```
 
 # ref
