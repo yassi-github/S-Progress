@@ -33,8 +33,7 @@ def create_script_file(script: str) -> str:
     script_file_path: str = f'{workingdir}/{filename}'
     # スクリプトを書き込む
     with open(script_file_path, 'w') as file:
-        file.write("#!/bin/bash\n")
-        file.write(script)
+        file.writelines('\n'.join(["#!/bin/bash", script]))
     os.chmod(script_file_path, 0o777)
     return script_file_path
 
@@ -62,15 +61,18 @@ def execute_container(script_file_path: str) -> str:
     exec_script_result: bytes = runed_container_object.logs()
     # 拾ったら削除する
     runed_container_object.remove(force=True)
-    # 最初のファイル名表示を消す
 
-    # 結果の文字列を整える。スクリプトがエラーとなった場合(exit code が0以外で、ファイル名云々が表示された場合)。
-    if exec_script_result.decode().split('\n')[-2] != 0 and match(r'/script_files/[a-zA-Z0-9]+: line \d+: ', exec_script_result.decode()):
-        exec_script_result = ': '.join((exec_script_result.decode().split(': ')[2:])).encode()
-    
+    # 結果の文字列を整える。スクリプトがエラーとなった場合(ファイル名云々が表示された場合)それを消す。
+    exec_script_result_list = exec_script_result.decode().split('\n')
+    for idx, line in enumerate(exec_script_result_list):
+        if match(r'/script_files/[a-zA-Z0-9]+: line \d+: ', line):
+            # 最初のファイル名表示を消す
+            exec_script_result_list[idx] = ': '.join((line.split(': ')[2:]))
+
+    exec_script_result_str: str = '\n'.join(exec_script_result_list)
     
     # base64 string にエンコード
-    b64_script_result: str = base64.b64encode(exec_script_result).decode()
+    b64_script_result: str = base64.b64encode(exec_script_result_str.encode()).decode()
     return b64_script_result
 
 
