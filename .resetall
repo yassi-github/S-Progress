@@ -1,0 +1,7 @@
+#!/bin/bash
+
+docker-compose down
+docker rmi `docker images | grep -e s-progress -e alpine-cmd | tr -s ' ' | cut -d' ' -f 3`
+rm -rf answer/script_files/*
+rm -rf db_data/*
+

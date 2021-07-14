@@ -13,3 +13,4 @@ class ProblemAnswerResult(BaseModel):
     username: str
     script: str
     is_correct: bool
+    result: str
