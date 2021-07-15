@@ -21,6 +21,7 @@ COPY problem_files/ ${PROBLEMFILES}/
 # directoryには+x権限が必要。ファイルはreadでおｋ
 RUN chmod -R 445 ${PROBLEMFILES}/
 USER user
+WORKDIR ${PROBLEMFILES}
 
 # problem fileをパスしたら、exテストファイルを試す
 # パスしたというよりエラーが出なかった？ら、problem fileをいじろうとしてない(root権限のファイルをchown,chmod,writeしようとしてない)のでprobが自オーナーファイルを実行してもいじられることはない

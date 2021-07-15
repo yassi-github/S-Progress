@@ -101,9 +101,9 @@ async def assert_answer(script: str, problem_id: int, database: Database) -> Tup
     # 実行
     b64_script_result: str = run_script(script)
     # 正答を抽出
-    correct_answer_recoed: backends.postgres.Record  = await find_correct_answer(problem_id, database)
+    correct_answer_record: backends.postgres.Record  = await find_correct_answer(problem_id, database)
     # databases.backends.postgres.Record は items()をdictにすることで辞書形式に展開できる
-    b64_correct_answer: str = dict(correct_answer_recoed.items())['correct_ans']
+    b64_correct_answer: str = dict(correct_answer_record.items())['correct_ans']
     # 同じか検証(isにしたらidを比較するので失敗する！)
     is_correct: bool = b64_script_result == b64_correct_answer
     return (is_correct, b64_script_result)
@@ -116,7 +116,7 @@ async def answer_regist(problem_id: int, answer: ProblemAnswer, database: Databa
     query = answers_table.insert()
     values = answer.dict()
     # 正誤判定
-    is_correct, b64_command_result = await assert_answer(values["script"], problem_id, database)
+    is_correct, b64_command_result = await assert_answer(base64.b64decode(values["script"].encode()).decode(), problem_id, database)
     # 問題idと正誤の項目を追加
     values['problem_id'] = problem_id
     values['is_correct'] = is_correct
