@@ -1,7 +1,7 @@
 from time import sleep
 from answer.schemas import ProblemAnswer, ProblemAnswerResult
 from fastapi import APIRouter, Depends
-from databases import Database
+from databases import Database, backends
 from utils.dbutils import get_connection
 
 from random import choices
@@ -9,6 +9,9 @@ from string import ascii_letters, digits
 
 from typing import Tuple
 from .models import answers_table
+import sys
+sys.path.append('../')
+from problems.models import problems
 
 import docker
 import os
@@ -22,7 +25,7 @@ def random_name(n: int) -> str:
    return ''.join(choices(ascii_letters + digits, k=n))
 
 
-# シェルスクリプトの実行可能ファイルを作成する
+# シェルスクリプトの実行可能ファイルを作成する  
 # ファイルへの相対パスが返る
 def create_script_file(script: str) -> str:
     # スクリプトファイルを格納するディレクトリへの相対パス(main.pyから見た相対パス？)
@@ -85,24 +88,25 @@ def run_script(script: str) -> str:
 
 
 # 問題テーブルから正答を持ってくる
-def find_correct_answer(problem_id: int) -> str:
-    # test: fake answer
-    # 実行結果は最後に改行されるので、最後は改行する
-    correct_answer: str = '321cba\n'
-    return correct_answer
+async def find_correct_answer(problem_id: int, database: Database) -> str:
+    query = problems.select().where(problems.columns.id == problem_id)
+    # database coroutine object
+    # ↓
+    # databases.backends.postgres.Record object
+    return await database.fetch_one(query)
 
 
 # answerを検証
-# ArgType: Table ? UserCreate ? Union? dict?
-# RetType: same above
-def assert_answer(script: str, problem_id: int) -> Tuple[bool, str]:
+async def assert_answer(script: str, problem_id: int, database: Database) -> Tuple[bool, str]:
     # 実行
     b64_script_result: str = run_script(script)
     # 正答を抽出
-    correct_answer: str = find_correct_answer(problem_id)
+    correct_answer_recoed: backends.postgres.Record  = await find_correct_answer(problem_id, database)
+    # databases.backends.postgres.Record は items()をdictにすることで辞書形式に展開できる
+    b64_correct_answer: str = dict(correct_answer_recoed.items())['correct_ans']
     # 同じか検証(isにしたらidを比較するので失敗する！)
-    is_correct: bool = b64_script_result == base64.b64encode(correct_answer.encode()).decode()
-    return is_correct, b64_script_result
+    is_correct: bool = b64_script_result == b64_correct_answer
+    return (is_correct, b64_script_result)
 
 
 # scriptを受付
@@ -112,7 +116,7 @@ async def answer_regist(problem_id: int, answer: ProblemAnswer, database: Databa
     query = answers_table.insert()
     values = answer.dict()
     # 正誤判定
-    is_correct, b64_command_result = assert_answer(values["script"], problem_id)
+    is_correct, b64_command_result = await assert_answer(values["script"], problem_id, database)
     # 問題idと正誤の項目を追加
     values['problem_id'] = problem_id
     values['is_correct'] = is_correct

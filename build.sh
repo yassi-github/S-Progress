@@ -8,3 +8,4 @@ chown `echo $USER` .
 cd ../../..
 sudo -u $USER env PWD=$(pwd) docker-compose up --build
 # docker-compose ps -a
+docker-compose exec db psql spro < spro_v2.sql

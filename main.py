@@ -2,7 +2,12 @@ from fastapi import FastAPI
 from db import database
 from users.router import router as users_router
 from answer.router import router as answer_router
+from problems.router import router as problem_router
 from starlette.requests import Request
+
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 
 
 app = FastAPI()
@@ -24,6 +29,15 @@ async def shutdown():
 app.include_router(users_router)
 # answer routerを登録する。
 app.include_router(answer_router)
+# problem routerを登録する。
+app.include_router(problem_router)
+
+templates = Jinja2Templates(directory="templates")
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+@app.get('/', response_class=HTMLResponse)
+def index(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
 
 # middleware state.connectionにdatabaseオブジェクトをセットする。
