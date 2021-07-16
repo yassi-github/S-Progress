@@ -144,7 +144,10 @@ async def answer_regist(problem_id: int, answer: ProblemAnswer, database: Databa
     # 問題idと正誤の項目を追加
     values['problem_id'] = problem_id
     values['is_correct'] = is_correct
-    values['result'] = b64_command_result
-    # SQL実行
+    # resultを追加する前にinsert SQLを実行
+    # resultが多すぎる(8191 bytes)を超えるとエラーになるため。
     ret = await database.execute(query, values)
+    # resultを追加
+    values['result'] = b64_command_result
+    # 結果を返す
     return values
