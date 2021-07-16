@@ -7,11 +7,14 @@ from utils.dbutils import get_connection
 from random import choices
 from string import ascii_letters, digits
 
-from typing import Tuple
+from typing import Container, Tuple
 from .models import answers_table
 import sys
 sys.path.append('../')
 from problems.models import problems
+
+from timeout_decorator import timeout, TimeoutError
+import subprocess
 
 import docker
 import os
@@ -40,6 +43,31 @@ def create_script_file(script: str) -> str:
     os.chmod(script_file_path, 0o777)
     return script_file_path
 
+# timeout 10s
+@timeout(10)
+def docker_run_container(client: docker.models.containers.Container, host_projectdir: str, command: str, name: str) -> bytes:
+    # ホストのカレントディレクトリ(マウント元)
+    host_projectdir: str = os.getenv('HOSTPWD')
+    # コンテナの作成
+    try:
+        container = client.containers.run(image="alpine-cmd", command=command, detach=True, network_disabled=True, mem_limit='128m', pids_limit=100, runtime="runsc", name=name, volumes={f'{host_projectdir}/answer/script_files/': {'bind': '/script_files/', 'mode': 'rw'}})
+    except docker.errors.ContainerError as exc:
+        # 実行エラー。ファイルの実行ができない場合。なかなか起きないはず。
+        container = exc.container
+
+    # container state が Exited になるまで待つ
+    # client.containers.get(name).status なら、リアルタイムのstatusを取得できる
+    # container.status は、run時のstatusを保持している
+    while client.containers.get(name).status == 'running':
+        sleep(0.1)
+
+    # error含めてlogs()で拾う
+    exec_script_result: bytes = container.logs()
+    # 拾ったら削除する
+    container.remove(force=True)
+    return exec_script_result
+
+
 
 # コンテナを作成してファイルを実行し、結果を返す
 def execute_container(script_file_path: str) -> str:
@@ -52,18 +80,14 @@ def execute_container(script_file_path: str) -> str:
     script_file_name: str = script_file_path.split('/')[-1]
     # ファイルを実行
     EXECUTE_COMMAND: str = f'./../script_files/{script_file_name}'
-    # 実行結果(バイナリ型で返る)
+    container_name = random_name(10)
+    
     try:
-        runed_container_object = client.containers.run(image="alpine-cmd", command=EXECUTE_COMMAND, detach=True, network_disabled=True, mem_limit='128m', pids_limit=100, runtime="runsc", volumes={f'{host_projectdir}/answer/script_files/': {'bind': '/script_files/', 'mode': 'rw'}})
-    except docker.errors.ContainerError as exc:
-        # 実行エラー。ファイルの実行ができない場合。なかなか起きないはず。
-        runed_container_object = exc.container
-    # error含めてlogs()で拾う
-    # すぐに拾おうとすると空文字列が返るので100ms待つ(40msは駄目。50は怪しい。安全にするなら100ms以上でもいいかも)
-    sleep(100/1000)
-    exec_script_result: bytes = runed_container_object.logs()
-    # 拾ったら削除する
-    runed_container_object.remove(force=True)
+        exec_script_result: bytes = docker_run_container(client, host_projectdir, EXECUTE_COMMAND, container_name)
+    except TimeoutError:
+        exec_script_result: bytes = b'TIME OUT!!'
+        client.containers.get(container_name).remove(force=True)
+    
 
     # 結果の文字列を整える。スクリプトがエラーとなった場合(ファイル名云々が表示された場合)それを消す。
     exec_script_result_list = exec_script_result.decode().split('\n')
