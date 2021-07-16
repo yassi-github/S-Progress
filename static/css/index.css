@@ -1,1 +1,86 @@
 /* いいかんじにする */
+
+body {
+    font-family: monospace;
+    font-size: 14px;
+}
+
+#problems {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+#problems>div {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 10px;
+}
+
+#problems>div>div {
+    margin: 10px;
+}
+
+#input-area {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+#input-area>div {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 10px;
+}
+
+#input-area>div>input {
+    width: 100%;
+    margin-left: 10px;
+    padding: 5px;
+}
+
+#send-button {
+    margin-left: 10px;
+    width: 100%;
+}
+
+#response-area {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+#result-area {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+#is-correct {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
