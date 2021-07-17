@@ -28,7 +28,7 @@ def random_name(n: int) -> str:
    return ''.join(choices(ascii_letters + digits, k=n))
 
 
-# シェルスクリプトの実行可能ファイルを作成する  
+# シェルスクリプトの実行可能ファイルを作成する
 # ファイルへの相対パスが返る
 def create_script_file(script: str) -> str:
     # スクリプトファイルを格納するディレクトリへの相対パス(main.pyから見た相対パス？)
@@ -81,13 +81,13 @@ def execute_container(script_file_path: str) -> str:
     # ファイルを実行
     EXECUTE_COMMAND: str = f'./../script_files/{script_file_name}'
     container_name = random_name(10)
-    
+
     try:
         exec_script_result: bytes = docker_run_container(client, host_projectdir, EXECUTE_COMMAND, container_name)
     except TimeoutError:
         exec_script_result: bytes = b'TIME OUT!!'
         client.containers.get(container_name).remove(force=True)
-    
+
 
     # 結果の文字列を整える。スクリプトがエラーとなった場合(ファイル名云々が表示された場合)それを消す。
     exec_script_result_list = exec_script_result.decode().split('\n')
@@ -97,7 +97,7 @@ def execute_container(script_file_path: str) -> str:
             exec_script_result_list[idx] = ': '.join((line.split(': ')[2:]))
 
     exec_script_result_str: str = '\n'.join(exec_script_result_list)
-    
+
     # base64 string にエンコード
     b64_script_result: str = base64.b64encode(exec_script_result_str.encode()).decode()
     return b64_script_result
@@ -144,10 +144,20 @@ async def answer_regist(problem_id: int, answer: ProblemAnswer, database: Databa
     # 問題idと正誤の項目を追加
     values['problem_id'] = problem_id
     values['is_correct'] = is_correct
-    # resultを追加する前にinsert SQLを実行
-    # resultが多すぎる(8191 bytes)を超えるとエラーになるため。
+
+    # resultが多すぎる(8191 bytes)を超えるとエラーになるため
+    # 8191 bytes の超過分を切り出す
+    byte_limit = 8191
+    # へんなとこで切り出すとエラーとなるのでエラーが出なくなるところを探す
+    while True:
+        try:
+            b64_command_result.encode()[:byte_limit]
+            # 成功したらbreak
+            break
+        except UnicodeEncodeError:
+            byte_limit -= 1
+
+    values['result'] = b64_command_result.encode()[:byte_limit]
     ret = await database.execute(query, values)
-    # resultを追加
-    values['result'] = b64_command_result
     # 結果を返す
     return values
