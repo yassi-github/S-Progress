@@ -10,8 +10,12 @@ from answer.router import router as answer_router
 from problems.router import router as problem_router
 
 
-app = FastAPI()
+DEBUG_MODE = True
 
+app = FastAPI(
+    docs_url="/docs" if DEBUG_MODE else None,
+    redoc_url="/redoc" if DEBUG_MODE else None,
+)
 
 # 起動時にDatabaseに接続する。
 @app.on_event("startup")
