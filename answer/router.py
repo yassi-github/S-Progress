@@ -7,18 +7,19 @@ from utils.dbutils import get_connection
 from random import choices
 from string import ascii_letters, digits
 
-from typing import Container, Tuple
+from typing import Tuple
 from .models import answers_table
 import sys
 sys.path.append('../')
 from problems.models import problems
 
 from timeout_decorator import timeout, TimeoutError
-import subprocess
+
+from urllib.parse import quote, unquote
+from hashlib import sha256
 
 import docker
 import os
-import base64
 from re import match
 
 router = APIRouter()
@@ -98,17 +99,17 @@ def execute_container(script_file_path: str) -> str:
 
     exec_script_result_str: str = '\n'.join(exec_script_result_list)
 
-    # base64 string にエンコード
-    b64_script_result: str = base64.b64encode(exec_script_result_str.encode()).decode()
-    return b64_script_result
+    # url parsent encode
+    urip_script_result: str = quote(exec_script_result_str)
+    return urip_script_result
 
 
 # ファイル作成と実行とファイル削除 実行結果が返る
 def run_script(script: str) -> str:
     script_file_path: str = create_script_file(script)
-    b64_script_result: str = execute_container(script_file_path)
+    urip_script_result: str = execute_container(script_file_path)
     os.remove(script_file_path)
-    return b64_script_result
+    return urip_script_result
 
 
 # 問題テーブルから正答を持ってくる
@@ -123,14 +124,15 @@ async def find_correct_answer(problem_id: int, database: Database) -> str:
 # answerを検証
 async def assert_answer(script: str, problem_id: int, database: Database) -> Tuple[bool, str]:
     # 実行
-    b64_script_result: str = run_script(script)
+    urip_script_result: str = run_script(script)
     # 正答を抽出
     correct_answer_record: backends.postgres.Record  = await find_correct_answer(problem_id, database)
     # databases.backends.postgres.Record は items()をdictにすることで辞書形式に展開できる
-    b64_correct_answer: str = dict(correct_answer_record.items())['correct_ans']
+    # 正答はsha256で保存している
+    sha256_correct_answer: str = dict(correct_answer_record.items())['correct_ans']
     # 同じか検証(isにしたらidを比較するので失敗する！)
-    is_correct: bool = b64_script_result == b64_correct_answer
-    return (is_correct, b64_script_result)
+    is_correct: bool = sha256(unquote(urip_script_result).encode()).hexdigest() == sha256_correct_answer
+    return (is_correct, urip_script_result)
 
 
 # scriptを受付
@@ -145,7 +147,10 @@ async def answer_regist(problem_id: int, answer: ProblemAnswer, database: Databa
         raise HTTPException(status_code=400, detail="Empty script")
 
     # 正誤判定
-    is_correct, b64_command_result = await assert_answer(base64.b64decode(values["script"].encode()).decode(), problem_id, database)
+    is_correct, urlq_command_result = await assert_answer(unquote(values["script"]), problem_id, database)
+
+    byte_command_result: bytes = unquote(urlq_command_result).encode()
+
     # 問題idと正誤の項目を追加
     values['problem_id'] = problem_id
     values['is_correct'] = is_correct
@@ -156,13 +161,14 @@ async def answer_regist(problem_id: int, answer: ProblemAnswer, database: Databa
     # へんなとこで切り出すとエラーとなるのでエラーが出なくなるところを探す
     while True:
         try:
-            b64_command_result.encode()[:byte_limit]
+            byte_command_result[:byte_limit].decode()
             # 成功したらbreak
             break
-        except UnicodeEncodeError:
+        except UnicodeDecodeError:
             byte_limit -= 1
 
-    values['result'] = b64_command_result.encode()[:byte_limit].decode()
+    # urlエンコードして返却
+    values['result'] = quote(byte_command_result[:byte_limit].decode())
     ret = await database.execute(query, values)
     # 結果を返す
     return values
