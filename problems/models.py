@@ -1,7 +1,9 @@
+from sqlalchemy import Column, Table, Integer, String
+
+from db import metadata, engine
+
 import sys
 sys.path.append('../')
-from sqlalchemy import Column, Table, Integer, String
-from db import metadata, engine
 
 
 problems = Table(

@@ -1,3 +1,10 @@
+from re import match
+import os
+import docker
+from hashlib import sha256
+from urllib.parse import quote, unquote
+from timeout_decorator import timeout, TimeoutError
+from problems.models import problems
 from time import sleep
 from answer.schemas import ProblemAnswer, ProblemAnswerResult
 from fastapi import APIRouter, Depends, HTTPException
@@ -11,22 +18,13 @@ from typing import Tuple
 from .models import answers_table
 import sys
 sys.path.append('../')
-from problems.models import problems
 
-from timeout_decorator import timeout, TimeoutError
-
-from urllib.parse import quote, unquote
-from hashlib import sha256
-
-import docker
-import os
-from re import match
 
 router = APIRouter()
 
 
 def random_name(n: int) -> str:
-   return ''.join(choices(ascii_letters + digits, k=n))
+    return ''.join(choices(ascii_letters + digits, k=n))
 
 
 # シェルスクリプトの実行可能ファイルを作成する
@@ -45,13 +43,16 @@ def create_script_file(script: str) -> str:
     return script_file_path
 
 # timeout 10s
+
+
 @timeout(10)
 def docker_run_container(client: docker.models.containers.Container, host_projectdir: str, command: str, name: str) -> bytes:
     # ホストのカレントディレクトリ(マウント元)
     host_projectdir: str = os.getenv('HOSTPWD')
     # コンテナの作成
     try:
-        container = client.containers.run(image="alpine-cmd", command=command, detach=True, network_disabled=True, mem_limit='128m', pids_limit=100, runtime="runsc", name=name, volumes={f'{host_projectdir}/answer/script_files/': {'bind': '/script_files/', 'mode': 'rw'}})
+        container = client.containers.run(image="alpine-cmd", command=command, detach=True, network_disabled=True, mem_limit='128m', pids_limit=100,
+                                          runtime="runsc", name=name, volumes={f'{host_projectdir}/answer/script_files/': {'bind': '/script_files/', 'mode': 'rw'}})
     except docker.errors.ContainerError as exc:
         # 実行エラー。ファイルの実行ができない場合。なかなか起きないはず。
         container = exc.container
@@ -69,7 +70,6 @@ def docker_run_container(client: docker.models.containers.Container, host_projec
     return exec_script_result
 
 
-
 # コンテナを作成してファイルを実行し、結果を返す
 def execute_container(script_file_path: str) -> str:
 
@@ -84,11 +84,11 @@ def execute_container(script_file_path: str) -> str:
     container_name = random_name(10)
 
     try:
-        exec_script_result: bytes = docker_run_container(client, host_projectdir, EXECUTE_COMMAND, container_name)
+        exec_script_result: bytes = docker_run_container(
+            client, host_projectdir, EXECUTE_COMMAND, container_name)
     except TimeoutError:
         exec_script_result: bytes = b'TIME OUT!!'
         client.containers.get(container_name).remove(force=True)
-
 
     # 結果の文字列を整える。スクリプトがエラーとなった場合(ファイル名云々が表示された場合)それを消す。
     exec_script_result_list = exec_script_result.decode().split('\n')
@@ -126,12 +126,14 @@ async def assert_answer(script: str, problem_id: int, database: Database) -> Tup
     # 実行
     urip_script_result: str = run_script(script)
     # 正答を抽出
-    correct_answer_record: backends.postgres.Record  = await find_correct_answer(problem_id, database)
+    correct_answer_record: backends.postgres.Record = await find_correct_answer(problem_id, database)
     # databases.backends.postgres.Record は items()をdictにすることで辞書形式に展開できる
     # 正答はsha256で保存している
-    sha256_correct_answer: str = dict(correct_answer_record.items())['correct_ans']
+    sha256_correct_answer: str = dict(
+        correct_answer_record.items())['correct_ans']
     # 同じか検証(isにしたらidを比較するので失敗する！)
-    is_correct: bool = sha256(unquote(urip_script_result).encode()).hexdigest() == sha256_correct_answer
+    is_correct: bool = sha256(
+        unquote(urip_script_result).encode()).hexdigest() == sha256_correct_answer
     return (is_correct, urip_script_result)
 
 

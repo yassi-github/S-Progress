@@ -1,13 +1,13 @@
 from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
+from starlette.requests import Request
+
 from db import database
 from users.router import router as users_router
 from answer.router import router as answer_router
 from problems.router import router as problem_router
-from starlette.requests import Request
-
-from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
-from fastapi.staticfiles import StaticFiles
 
 
 app = FastAPI()
@@ -34,6 +34,7 @@ app.include_router(problem_router)
 
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
 
 @app.get('/', response_class=HTMLResponse)
 def index(request: Request):

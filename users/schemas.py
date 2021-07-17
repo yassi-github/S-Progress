@@ -20,7 +20,6 @@ class UserUpdate(BaseModel):
     is_superuser: bool
 
 
-
 # select用のrequest model。selectでは、パスワード不要のため定義しない。
 class UserSelect(BaseModel):
     username: str

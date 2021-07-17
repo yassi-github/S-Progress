@@ -1,16 +1,16 @@
+from utils.dbutils import get_connection
+from .schemas import UserCreate, UserUpdate, UserSelect
+from .models import users
 import hashlib
 
 from fastapi import APIRouter, Depends
-from typing import List
-from sqlalchemy.sql.schema import Table
 from starlette.requests import Request
 from databases import Database
+from sqlalchemy.sql.schema import Table
+from typing import List
 
 import sys
 sys.path.append('../')
-from .models import users
-from .schemas import UserCreate, UserUpdate, UserSelect
-from utils.dbutils import get_connection
 
 
 router = APIRouter()

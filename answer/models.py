@@ -1,7 +1,7 @@
+from db import metadata, engine
+from sqlalchemy import Column, Table, Integer, String, Boolean
 import sys
 sys.path.append('../')
-from sqlalchemy import Column, Table, Integer, String, Boolean
-from db import metadata, engine
 
 
 answers_table = Table(

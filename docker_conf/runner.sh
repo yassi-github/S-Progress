@@ -11,6 +11,3 @@ uvicorn main:app\
     --proxy-headers\
     --forwarded-allow-ips='*'\
     --log-level debug
-# wildcard host is insecure, but it's ok for dev
-# --ssl-keyfile=docker_conf/nginx/ssl/server.key\
-# --ssl-certfile=docker_conf/nginx/ssl/server.crt\

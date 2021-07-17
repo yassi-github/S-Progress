@@ -37,41 +37,41 @@ getApi('/problems').then(data => {
                 <button id="send-button-${problem.id}">EXECUTE</button>
             </div>
             `
-            problemsElement.appendChild(problemElement)
+        problemsElement.appendChild(problemElement)
 
-            // submit solution
-            document.getElementById(`send-button-${problem.id}`).addEventListener('click', () => {
-                let urlEncodedScript = encodeURIComponent(document.getElementById(problemElementInputareaID).value)
-                let answerRequestBody = {
-                    "username": "sample",
-                    "script": urlEncodedScript
+        // submit solution
+        document.getElementById(`send-button-${problem.id}`).addEventListener('click', () => {
+            let urlEncodedScript = encodeURIComponent(document.getElementById(problemElementInputareaID).value)
+            let answerRequestBody = {
+                "username": "sample",
+                "script": urlEncodedScript
+            }
+            let url = location.origin + `/problems/${problem.id}/answer`
+
+            sendPost(url, answerRequestBody).then(response => {
+                // show command result
+                // HTTPExceptionのときはdetailにメッセージが入る
+                if (response.detail) {
+                    resultAreaElement.innerHTML = response.detail
+                } else {
+                    resultAreaElement.innerHTML = decodeURIComponent(response.result).replace(/\n/g, '<br>')
                 }
-                let url = location.origin + `/problems/${problem.id}/answer`
 
-                sendPost(url, answerRequestBody).then(response => {
-                    // show command result
-                    // HTTPExceptionのときはdetailにメッセージが入る
-                    if (response.detail) {
-                        resultAreaElement.innerHTML = response.detail
-                    } else {
-                        resultAreaElement.innerHTML = decodeURIComponent(response.result).replace(/\n/g, '<br>')
-                    }
-
-                    // C or W
-                    if (response.is_correct) {
-                        document.getElementById('is-correct').innerHTML = 'Correct!'
-                    } else {
-                        document.getElementById('is-correct').innerHTML = 'Incorrect!'
-                    }
-                }, error => {
-                    resultAreaElement.innerHTML = error
-                })
-            })
-            // input要素が入力されていてかつ、Enterが押されたら、button要素をクリックする
-            document.getElementById(problemElementInputareaID).addEventListener('keyup', e => {
-                if (e.key === 'Enter') {
-                    document.getElementById(`send-button-${problem.id}`).click()
+                // C or W
+                if (response.is_correct) {
+                    document.getElementById('is-correct').innerHTML = 'Correct!'
+                } else {
+                    document.getElementById('is-correct').innerHTML = 'Incorrect!'
                 }
+            }, error => {
+                resultAreaElement.innerHTML = error
             })
+        })
+        // input要素が入力されていてかつ、Enterが押されたら、button要素をクリックする
+        document.getElementById(problemElementInputareaID).addEventListener('keyup', e => {
+            if (e.key === 'Enter') {
+                document.getElementById(`send-button-${problem.id}`).click()
+            }
+        })
     })
 })
