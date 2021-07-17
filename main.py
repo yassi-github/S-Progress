@@ -10,7 +10,7 @@ from answer.router import router as answer_router
 from problems.router import router as problem_router
 
 
-DEBUG_MODE = True
+DEBUG_MODE = False
 
 app = FastAPI(
     docs_url="/docs" if DEBUG_MODE else None,
