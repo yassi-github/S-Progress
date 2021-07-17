@@ -44,6 +44,7 @@ services:
       fastapi_spro:
         ipv4_address: 172.27.1.12
 
+
 # DBコンテナ
   db:
     image: postgres:12.4-alpine

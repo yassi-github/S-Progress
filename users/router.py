@@ -18,6 +18,7 @@ router = APIRouter()
 
 # 入力したパスワード（平文）をハッシュ化して返す。
 def get_users_insert_dict(user: Table):
+
     pwhash = hashlib.sha256(user.password.encode('utf-8')).hexdigest()
     values = user.dict()
     values.pop("password")
