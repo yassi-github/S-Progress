@@ -41,10 +41,10 @@ getApi('/problems').then(data => {
 
             // submit solution
             document.getElementById(`send-button-${problem.id}`).addEventListener('click', () => {
-                let b64ScriptText = btoa(document.getElementById(problemElementInputareaID).value)
+                let urlEncodedScript = encodeURIComponent(document.getElementById(problemElementInputareaID).value)
                 let answerRequestBody = {
                     "username": "sample",
-                    "script": b64ScriptText
+                    "script": urlEncodedScript
                 }
                 let url = location.origin + `/problems/${problem.id}/answer`
 
@@ -54,7 +54,7 @@ getApi('/problems').then(data => {
                     if (response.detail) {
                         resultAreaElement.innerHTML = response.detail
                     } else {
-                        resultAreaElement.innerHTML = atob(response.result).replace(/\n/g, '<br>')
+                        resultAreaElement.innerHTML = decodeURIComponent(response.result).replace(/\n/g, '<br>')
                     }
 
                     // C or W
