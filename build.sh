@@ -7,5 +7,5 @@ openssl req -x509 -sha256 -nodes -days 3650 -newkey rsa:2048 -subj /CN=localhost
 chown `echo $USER` .
 cd ../../..
 
-sudo -u $USER env PWD=$(pwd) docker-compose up --build
+sudo -u $USER env PWD=$(pwd) docker-compose up -d --build
 docker-compose exec -T db psql spro < spro.sql

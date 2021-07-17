@@ -42,16 +42,20 @@ def create_script_file(script: str) -> str:
     os.chmod(script_file_path, 0o777)
     return script_file_path
 
-# timeout 10s
 
-
-@timeout(10)
+# yes command benchmark
+# timeout 10s -> 23s
+# timeout 5s -> 22s
+# timeout 2s -> 10s
+# timeout 1s -> 5s
+@timeout(1)
 def docker_run_container(client: docker.models.containers.Container, host_projectdir: str, command: str, name: str) -> bytes:
     # ホストのカレントディレクトリ(マウント元)
     host_projectdir: str = os.getenv('HOSTPWD')
     # コンテナの作成
     try:
         container = client.containers.run(image="alpine-cmd", command=command, detach=True, network_disabled=True, mem_limit='128m', pids_limit=100,
+                                          cpu_period=50000, cpu_quota=25000, ulimits=[docker.types.Ulimit(name='fsize', soft=1000000, hard=10000000)],
                                           runtime="runsc", name=name, volumes={f'{host_projectdir}/answer/script_files/': {'bind': '/script_files/', 'mode': 'rw'}})
     except docker.errors.ContainerError as exc:
         # 実行エラー。ファイルの実行ができない場合。なかなか起きないはず。
@@ -87,8 +91,25 @@ def execute_container(script_file_path: str) -> str:
         exec_script_result: bytes = docker_run_container(
             client, host_projectdir, EXECUTE_COMMAND, container_name)
     except TimeoutError:
-        exec_script_result: bytes = b'TIME OUT!!'
-        client.containers.get(container_name).remove(force=True)
+        timeouted_container = client.containers.get(container_name)
+        # TIMEOUTした時点でのlogsを取得する
+        exec_script_result: bytes = timeouted_container.logs()
+        # print(exec_script_result)
+        timeouted_container.remove(force=True)
+
+    # resultが多すぎる(8191 bytes)を超えるとエラーになるし、処理が重くなるため
+    # 8191 bytes の超過分を切り出す
+    BYTE_LIMIT = 8191
+    # へんなとこで切り出すとエラーとなるのでエラーが出なくなるところを探す
+    while True:
+        try:
+            exec_script_result[:BYTE_LIMIT].decode()
+            # 成功したらbreak
+            break
+        except UnicodeDecodeError:
+            BYTE_LIMIT -= 1
+
+    exec_script_result = exec_script_result[:BYTE_LIMIT]
 
     # 結果の文字列を整える。スクリプトがエラーとなった場合(ファイル名云々が表示された場合)それを消す。
     exec_script_result_list = exec_script_result.decode().split('\n')
@@ -157,20 +178,8 @@ async def answer_regist(problem_id: int, answer: ProblemAnswer, database: Databa
     values['problem_id'] = problem_id
     values['is_correct'] = is_correct
 
-    # resultが多すぎる(8191 bytes)を超えるとエラーになるため
-    # 8191 bytes の超過分を切り出す
-    byte_limit = 8191
-    # へんなとこで切り出すとエラーとなるのでエラーが出なくなるところを探す
-    while True:
-        try:
-            byte_command_result[:byte_limit].decode()
-            # 成功したらbreak
-            break
-        except UnicodeDecodeError:
-            byte_limit -= 1
-
     # urlエンコードして返却
-    values['result'] = quote(byte_command_result[:byte_limit].decode())
+    values['result'] = quote(byte_command_result.decode())
     ret = await database.execute(query, values)
     # 結果を返す
     return values
