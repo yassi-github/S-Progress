@@ -162,7 +162,7 @@ async def answer_regist(problem_id: int, answer: ProblemAnswer, database: Databa
         except UnicodeEncodeError:
             byte_limit -= 1
 
-    values['result'] = b64_command_result.encode()[:byte_limit]
+    values['result'] = b64_command_result.encode()[:byte_limit].decode()
     ret = await database.execute(query, values)
     # 結果を返す
     return values
