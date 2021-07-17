@@ -38,7 +38,7 @@ getApi('/problems').then(data => {
             </div>
             `
             problemsElement.appendChild(problemElement)
-            
+
             // submit solution
             document.getElementById(`send-button-${problem.id}`).addEventListener('click', () => {
                 let b64ScriptText = btoa(document.getElementById(problemElementInputareaID).value)
@@ -47,15 +47,16 @@ getApi('/problems').then(data => {
                     "script": b64ScriptText
                 }
                 let url = location.origin + `/problems/${problem.id}/answer`
-            
+
                 sendPost(url, answerRequestBody).then(response => {
                     // show command result
+                    // HTTPExceptionのときはdetailにメッセージが入る
                     if (response.detail) {
                         resultAreaElement.innerHTML = response.detail
                     } else {
                         resultAreaElement.innerHTML = atob(response.result).replace(/\n/g, '<br>')
                     }
-            
+
                     // C or W
                     if (response.is_correct) {
                         document.getElementById('is-correct').innerHTML = 'Correct!'
@@ -66,7 +67,11 @@ getApi('/problems').then(data => {
                     resultAreaElement.innerHTML = error
                 })
             })
+            // input要素が入力されていてかつ、Enterが押されたら、button要素をクリックする
+            document.getElementById(problemElementInputareaID).addEventListener('keyup', e => {
+                if (e.key === 'Enter') {
+                    document.getElementById(`send-button-${problem.id}`).click()
+                }
+            })
     })
 })
-
-
