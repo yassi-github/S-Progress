@@ -33,7 +33,7 @@ getApi('/problems').then(data => {
                 <a onclick="" href="problems/${problem.id}/file">No.${problem.id} Question File</a>
             </div>
             <div id="input-area">
-                <input autofocus type="text" size="50" id="${problemElementInputareaID}">
+                <input autofocus type="text" size="50" id="${problemElementInputareaID}" placeholder="cat q_${problem.id}.txt | ...">
                 <button id="send-button-${problem.id}">EXECUTE</button>
             </div>
             `
