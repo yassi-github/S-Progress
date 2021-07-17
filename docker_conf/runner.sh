@@ -9,5 +9,5 @@ uvicorn main:app\
     --port 8000\
     --host 0.0.0.0\
     --proxy-headers\
-    --forwarded-allow-ips='*'\
+    --forwarded-allow-ips='172.27.1.11'\
     --log-level debug

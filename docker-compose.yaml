@@ -15,6 +15,9 @@ services:
     volumes:
       - ./docker_conf/nginx/conf.d:/etc/nginx/conf.d
       - ./docker_conf/nginx/ssl:/etc/nginx/ssl
+    networks:
+      fastapi_spro:
+        ipv4_address: 172.27.1.11
 
 # アプリケーションコンテナ
   app:
@@ -37,6 +40,9 @@ services:
     command: bash /fastapi/docker_conf/runner.sh
     restart: always
     tty: true
+    networks:
+      fastapi_spro:
+        ipv4_address: 172.27.1.12
 
 # DBコンテナ
   db:
@@ -52,7 +58,17 @@ services:
       - ./db_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    networks:
+      fastapi_spro:
+        ipv4_address: 172.27.1.13
 
 volumes:
   db_data:
     driver: local
+
+networks:
+  fastapi_spro:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.27.1.0/24
