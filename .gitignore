@@ -2,3 +2,5 @@ __pycache__/
 *.crt
 *.csr
 *.key
+/db_data/fastapi/
+answer/script_files/*

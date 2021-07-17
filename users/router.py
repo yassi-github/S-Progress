@@ -1,22 +1,24 @@
+from utils.dbutils import get_connection
+from .schemas import UserCreate, UserUpdate, UserSelect
+from .models import users
 import hashlib
 
 from fastapi import APIRouter, Depends
-from typing import List
 from starlette.requests import Request
 from databases import Database
+from sqlalchemy.sql.schema import Table
+from typing import List
 
 import sys
 sys.path.append('../')
-from .models import users
-from .schemas import UserCreate, UserUpdate, UserSelect
-from utils.dbutils import get_connection
 
 
 router = APIRouter()
 
 
 # 入力したパスワード（平文）をハッシュ化して返す。
-def get_users_insert_dict(user):
+def get_users_insert_dict(user: Table):
+
     pwhash = hashlib.sha256(user.password.encode('utf-8')).hexdigest()
     values = user.dict()
     values.pop("password")

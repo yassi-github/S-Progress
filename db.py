@@ -5,7 +5,6 @@ from sqlalchemy import create_engine, MetaData
 DATABASE = 'postgresql'
 USER = 'root'
 PASSWORD = 'password'
-# HOST = 'localhost'
 HOST = 'db'
 PORT = '5432'
 DB_NAME = 'spro'
