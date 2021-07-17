@@ -70,7 +70,7 @@ ALTER TABLE ONLY public.problems ALTER COLUMN id SET DEFAULT nextval('public.pro
 COPY public.problems (id, title, text, correct_ans) FROM stdin;
 1	esreveR	テキストを反転して表示せよ	dc738a32870c7ee3a60e8f912a2eed3882114cc706f424838b06a58e242dbbb9
 2	g/re/p	DISTRIB_CODENAMEの値を取り出せ	ba50fb338fa798d21d9c7e4ce753009b0ae0a553d9d9ee62c8d83663b9d3e4a8
-3	#	hogeという文字列を、md5でハッシュ化せよ。ファイルは、hogeという文字列をmd5でハッシュ化したものである。	bbdf49c4a881300225eeb7e0ac8fbf3339fcfad543595f757e05fa597e77a426
+3	#	hogeという文字列を、md5でハッシュ化せよ。例として、ファイルは、piyoという文字列をmd5でハッシュ化したものである。	bbdf49c4a881300225eeb7e0ac8fbf3339fcfad543595f757e05fa597e77a426
 \.
 
 
