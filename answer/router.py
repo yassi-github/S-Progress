@@ -1,6 +1,6 @@
 from time import sleep
 from answer.schemas import ProblemAnswer, ProblemAnswerResult
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from databases import Database, backends
 from utils.dbutils import get_connection
 
@@ -139,6 +139,11 @@ async def answer_regist(problem_id: int, answer: ProblemAnswer, database: Databa
     # insert into answers_table という命令。valuesはdatabase.executeの引数で指定
     query = answers_table.insert()
     values = answer.dict()
+
+    # scriptが空だとエラー
+    if not values['script']:
+        raise HTTPException(status_code=400, detail="Empty script")
+
     # 正誤判定
     is_correct, b64_command_result = await assert_answer(base64.b64decode(values["script"].encode()).decode(), problem_id, database)
     # 問題idと正誤の項目を追加

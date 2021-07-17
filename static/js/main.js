@@ -50,7 +50,11 @@ getApi('/problems').then(data => {
             
                 sendPost(url, answerRequestBody).then(response => {
                     // show command result
-                    resultAreaElement.innerHTML = atob(response.result).replace(/\n/g, '<br>')
+                    if (response.detail) {
+                        resultAreaElement.innerHTML = response.detail
+                    } else {
+                        resultAreaElement.innerHTML = atob(response.result).replace(/\n/g, '<br>')
+                    }
             
                     // C or W
                     if (response.is_correct) {
