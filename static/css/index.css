@@ -72,14 +72,21 @@ body {
 }
 
 #result-area {
+    background: rgb(28,27,34);
+    color: rgb(251,251,254);
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: space-between;
-    align-items: center;
+    align-items: start;
     width: 100%;
     height: 40vh;
     overflow-y: scroll;
+    padding-left: 2%;
+    border-left-style: solid;
+    border-left-width: 0px;
+    padding-top: 2%;
+    padding-right: 2%;
     margin-bottom: 2%;
 }
 
