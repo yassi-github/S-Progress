@@ -165,9 +165,9 @@ async def answer_regist(problem_id: int, answer: ProblemAnswer, database: Databa
     query = answers_table.insert()
     values = answer.dict()
 
-    # scriptが空だとエラー
-    if not values['script']:
-        raise HTTPException(status_code=400, detail="Empty script")
+    # scriptが空 もしくは 8191バイト以上だとエラー
+    if not values['script'] or len(values['script'].encode()) > 8191:
+        raise HTTPException(status_code=400, detail="Illegal size script.")
 
     # 正誤判定
     is_correct, urlq_command_result = await assert_answer(unquote(values["script"]), problem_id, database)
