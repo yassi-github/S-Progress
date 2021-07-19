@@ -14,6 +14,9 @@ body {
     align-items: center;
     width: 100%;
     height: 60vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding-right: 5%;
 }
 
 #problems>div {
@@ -88,6 +91,16 @@ body {
     padding-top: 2%;
     padding-right: 2%;
     margin-bottom: 2%;
+    word-wrap: anywhere;
+    /* hide scrollbar */
+    /* Edge */
+    -ms-overflow-style: none;
+    /* firefox  */
+    scrollbar-width: none;
+}
+/* chrome */
+#result-area::-webkit-scrollbar {
+    display:none;
 }
 
 #is-correct {
