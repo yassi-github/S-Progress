@@ -54,7 +54,7 @@ getApi('/problems').then(data => {
                 if (response.detail) {
                     resultAreaElement.innerHTML = response.detail
                 } else {
-                    resultAreaElement.innerHTML = decodeURIComponent(response.result).replace(/\n/g, '<br>')
+                    resultAreaElement.innerHTML = decodeURIComponent(response.result).replaceAll(/\n/g, '<br>')
                 }
 
                 // C or W

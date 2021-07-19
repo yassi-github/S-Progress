@@ -32,4 +32,4 @@ async def users_findone(problem_id: int, database: Database = Depends(get_connec
 
 @router.get("/problems/{problem_id}/file")
 async def serve_problem_file(problem_id: int):
-    return FileResponse(path=f'alpine-cmd/problem_files/{problem_id}/q.txt', media_type='application/octet-stream', filename='q.txt')
+    return FileResponse(path=f'alpine-cmd/problem_files/q_{problem_id}.txt', media_type='application/octet-stream', filename=f'q_{problem_id}.txt')
