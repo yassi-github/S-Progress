@@ -23,6 +23,33 @@ sys.path.append('../')
 router = APIRouter()
 
 
+def generate_json_command(COMMAND: str) -> str:
+
+    command_list = COMMAND.split('|')
+
+    execute_command = ""
+    create_jq_command = '''echo '{"stdout":['''
+    SH = '''{"__result_file__":''["'"$(head __result_file__ | sed -z "s/\\n/\\", \\"/g" | awk '{print substr($0, 1, length($0)-4)}')"'"]''},'''
+    # SH = '''{"__result_file__":''["'"$(cat __result_file__ | sed -z "s/\\n/\\", \\"/g" | awk '{print substr($0, 1, length($0)-4)}')"'"]''},'''
+
+    NUM_CMD = len(command_list)
+    for idx, command in enumerate(command_list):
+        uni_command_resultfilename = f"result_{idx}"
+        execute_command += f"{command} | tee {uni_command_resultfilename}"
+        create_jq_command += SH.replace('__result_file__', uni_command_resultfilename)
+        # if idx > (NUM_CMD - 2): break
+        execute_command += f"|"
+
+    execute_command = f"{execute_command[:-1]} >/dev/null ; "
+
+    create_jq_command = create_jq_command[:-1]
+    create_jq_command += ''']}' | jq'''
+
+    # print(create_jq_command)
+
+    return execute_command + create_jq_command
+
+
 def random_name(n: int) -> str:
     return ''.join(choices(ascii_letters + digits, k=n))
 

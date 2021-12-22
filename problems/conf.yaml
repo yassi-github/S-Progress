@@ -1,0 +1,39 @@
+- name: |
+    不正なログインは、よくあるユーザー名を利用して試みられている。
+    `/var/log/auth.log`にある無効なユーザー名を名前ごとに数え上げ、降順でカウントした数とともに10個表示せよ。
+    `/var/log/auth.log`は特権ユーザーしか読めないため、特別に`Question1.txt`に同様の内容を記載している。これを使用せよ。
+
+    使用コマンド: cut, grep, head, sort, uniq
+
+  answer:
+    shell: grep 'Invalid user' Question.txt | cut -d' ' -f 8 | sort | uniq -c | sort -nr | head -10
+    result: |
+      386 admin
+       56 user
+       55 eng
+       54 kagawau
+       52 boulez
+       45 ubnt
+       37 test
+       31 ftpuser
+       30 pi
+       28 ftp
+  hint:
+    hint1: |
+      uniqコマンドは、繰り返された行が隣接していないとマージしません。最初に入力をソートするとよいです。
+      数値を扱うときは、sortコマンドの`-n`オプションを使います。
+      昇順・降順で表示させたいときは、sortコマンドの`-r`オプションを活用してみましょう。
+    hint2: |
+      無効なユーザー名は、'Invalid user'のすぐ後に表示されています。まずはこの行をgrepで抽出してみましょう。
+      次に、cutコマンドでユーザー名の列のみを抽出してみましょう。
+      そうすればあとは、重複しているユーザー数をカウントし、降順にし、先頭から10個表示させるだけです。
+
+- title: "mondai title"
+  description: "mondai"
+  answer:
+    shell: shellscript
+    result: expect result
+  hint:
+    hint1: hint sono 1
+    hint2: hint sono 2
+

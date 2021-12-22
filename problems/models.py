@@ -6,8 +6,8 @@ import sys
 sys.path.append('../')
 
 
-problems = Table(
-    "problems",
+my_problems = Table(
+    "my_problems",
     metadata,
     Column("id", Integer, primary_key=True, index=True),
     Column("title", String, index=True),
