@@ -64,6 +64,7 @@ async def update_problem(request: Request, database: Database = Depends(get_conn
                 values[idx]['hint2'] = elem.hint2
 
 
+    # 反映されない。valuesの値のクォートがシングルクォートにならないから？手動ではいける
     query_raw = 'INSERT INTO problems (id, title, text, correct_ans) VALUES (:id, :title, :description, :result)'
     # query_raw = 'INSERT INTO problems (id, title, text, correct_ans) VALUES (:id, :title, :description, :result) ON CONFLICT(id) DO UPDATE SET title = :title, text = :text, corrent_ans = :correct_ans'
     # values = [
