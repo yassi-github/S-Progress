@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-RUN apk add bash
+RUN apk add bash jq
 
 SHELL [ "/bin/bash", "-c" ]
 ENV PROBLEMFILES=/problem_files

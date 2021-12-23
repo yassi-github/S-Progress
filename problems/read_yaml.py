@@ -41,7 +41,7 @@ class ReadFromYAMLHint():
         return f"{self.hint1}\n{self.hint2}\n"
 
 
-def get_data_from_yaml(filename: str):
+def get_data_from_yaml(filename: str) -> tuple:
 
     with open(filename) as file:
         yaml_load_obj: list = yaml.safe_load(file)
@@ -60,4 +60,5 @@ def get_data_from_yaml(filename: str):
         conf_hint: ReadFromYAMLHint = ReadFromYAMLHint(obj['hint']['hint1'], obj['hint']['hint2'])
         conf_hint_list.append(conf_hint)
 
-    print(f"{conf_name_list}\n{conf_answer_list}\n{conf_hint_list}")
+    # print(f"{conf_name_list}\n{conf_answer_list}\n{conf_hint_list}")
+    return conf_name_list, conf_answer_list, conf_hint_list

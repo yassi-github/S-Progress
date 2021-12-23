@@ -1,6 +1,20 @@
 #!/bin/bash
 
-docker-compose down
+which docker-compose >/dev/null 2>&1
+if [[ $? == 1 ]]
+then
+    docker compose >/dev/null 2>&1
+    if [[ $? == 1 ]]
+    then
+        echo -e "Please install docker-compose !\nAborting..."
+        exit 1
+    else
+        docker compose down
+    fi
+else
+    docker-compose down
+fi
+
 docker rm `docker ps -a | grep -e Exit -e Create -e Dead | tr -s ' ' | cut -d' ' -f 1`
 docker rmi `docker images | grep -e s-progress -e alpine-cmd -e '<none>' | tr -s ' ' | cut -d' ' -f 3`
 rm -rf answer/script_files/*

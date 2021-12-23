@@ -1,4 +1,5 @@
-- name: |
+- title: invalid user counter
+  description: |
     不正なログインは、よくあるユーザー名を利用して試みられている。
     `/var/log/auth.log`にある無効なユーザー名を名前ごとに数え上げ、降順でカウントした数とともに10個表示せよ。
     `/var/log/auth.log`は特権ユーザーしか読めないため、特別に`Question1.txt`に同様の内容を記載している。これを使用せよ。
