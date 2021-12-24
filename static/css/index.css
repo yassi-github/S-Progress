@@ -78,7 +78,7 @@ body {
     background: rgb(28,27,34);
     color: rgb(251,251,254);
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-between;
     align-items: start;
@@ -90,7 +90,7 @@ body {
     border-left-width: 0px;
     padding-top: 2%;
     padding-right: 2%;
-    margin-bottom: 2%;
+    margin-bottom: 0;
     word-wrap: anywhere;
     /* hide scrollbar */
     /* Edge */
@@ -98,8 +98,24 @@ body {
     /* firefox  */
     scrollbar-width: none;
 }
+
+.pcn-result {
+    width: calc(100% / 3.1);
+    height: 26vh;
+    white-space: nowrap;
+    overflow-x: scroll;
+    /* hide scrollbar */
+    /* Edge */
+    -ms-overflow-style: none;
+    /* firefox  */
+    scrollbar-width: none;
+}
+
 /* chrome */
 #result-area::-webkit-scrollbar {
+    display:none;
+}
+.pcn-result::-webkit-scrollbar {
     display:none;
 }
 
