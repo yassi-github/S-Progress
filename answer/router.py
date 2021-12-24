@@ -93,7 +93,7 @@ def create_script_file(script: str) -> str:
 # timeout 5s -> 22s
 # timeout 2s -> 10s
 # timeout 1s -> 5s
-@timeout(10)
+@timeout(5)
 def docker_run_container(client: docker.models.containers.Container, host_projectdir: str, command_file_path: str, name: str) -> bytes:
     # ホストのカレントディレクトリ(マウント元)
     host_projectdir: str = os.getenv('HOSTPWD')
@@ -103,7 +103,7 @@ def docker_run_container(client: docker.models.containers.Container, host_projec
     try:
     # subprocess.run(f'docker run --net="none" --pids-limit=500 -d --name="routerpytest1" -v {host_projectdir}/answer/script_files/:/script_files/ alpine-cmd {command_file_path}', shell=True)
     #     container = client.containers.run(image="alpine-cmd", command=f"{command_file_path}", detach=True, name=name, volumes={f'{host_projectdir}/answer/script_files/': {'bind': '/script_files/', 'mode': 'rw'}})
-        container = client.containers.run(image="alpine-cmd", command=f"{command_file_path} ; rm {command_file_path}", detach=True, network_disabled=True, mem_limit='512m', pids_limit=1000,
+        container = client.containers.run(image="alpine-cmd", command=f"{command_file_path} ; rm {command_file_path}", detach=True, network_disabled=True, mem_limit='128m', pids_limit=500,
                                           cpu_period=50000, cpu_quota=25000, ulimits=[docker.types.Ulimit(name='fsize', soft=1000000, hard=10000000)],
                                           runtime="runsc", name=name, volumes={f'{host_projectdir}/answer/script_files/': {'bind': '/script_files/', 'mode': 'rw'}})
         # container_obj = container.get(name)
@@ -236,7 +236,7 @@ async def assert_answer(script: str, problem_id: int, database: Database) -> Tup
     # 同じか検証(isにしたらidを比較するので失敗する！)
     is_correct: bool = sha256(
         # unquote(urip_script_result).encode()).hexdigest() == sha256_correct_answer
-        latest_stdout.encode()).hexdigest() == sha256_correct_answer
+        f'{latest_stdout}\n'.encode()).hexdigest() == sha256_correct_answer
     return (is_correct, urip_script_result)
 
 
