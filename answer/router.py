@@ -32,7 +32,7 @@ def generate_json_command(COMMAND: str) -> str:
 
     execute_command = ""
     create_jq_command = '''echo '{"stdout":['''
-    SH = '''{"__result_idx__":''["'"$(cat __result_file__ | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/", "/g' | awk '{print substr($0, 1, length($0)-4)}')"'"]''},'''
+    SH = '''{"__result_idx__":''["'"$(cat __result_file__ | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/", "/g')"'"]''},'''
 
     NUM_CMD = len(command_list)
     for idx, command in enumerate(command_list):
@@ -94,16 +94,16 @@ def create_script_file(script: str) -> str:
 # timeout 2s -> 10s
 # timeout 1s -> 5s
 @timeout(10)
-def docker_run_container(client: docker.models.containers.Container, host_projectdir: str, command: str, name: str) -> bytes:
+def docker_run_container(client: docker.models.containers.Container, host_projectdir: str, command_file_path: str, name: str) -> bytes:
     # ホストのカレントディレクトリ(マウント元)
     host_projectdir: str = os.getenv('HOSTPWD')
     # io が遅いせいで実行ファイルが認識されていない？1秒待ってみる。-> Internal server error.
     # sleep(1)
     # コンテナの作成
     try:
-    # subprocess.run(f'docker run --net="none" --pids-limit=500 -d --name="routerpytest1" -v {host_projectdir}/answer/script_files/:/script_files/ alpine-cmd {command}', shell=True)
-    #     container = client.containers.run(image="alpine-cmd", command=f"{command}", detach=True, name=name, volumes={f'{host_projectdir}/answer/script_files/': {'bind': '/script_files/', 'mode': 'rw'}})
-        container = client.containers.run(image="alpine-cmd", command=f"{command}", detach=True, network_disabled=True, mem_limit='512m', pids_limit=1000,
+    # subprocess.run(f'docker run --net="none" --pids-limit=500 -d --name="routerpytest1" -v {host_projectdir}/answer/script_files/:/script_files/ alpine-cmd {command_file_path}', shell=True)
+    #     container = client.containers.run(image="alpine-cmd", command=f"{command_file_path}", detach=True, name=name, volumes={f'{host_projectdir}/answer/script_files/': {'bind': '/script_files/', 'mode': 'rw'}})
+        container = client.containers.run(image="alpine-cmd", command=f"{command_file_path} ; rm {command_file_path}", detach=True, network_disabled=True, mem_limit='512m', pids_limit=1000,
                                           cpu_period=50000, cpu_quota=25000, ulimits=[docker.types.Ulimit(name='fsize', soft=1000000, hard=10000000)],
                                           runtime="runsc", name=name, volumes={f'{host_projectdir}/answer/script_files/': {'bind': '/script_files/', 'mode': 'rw'}})
         # container_obj = container.get(name)
