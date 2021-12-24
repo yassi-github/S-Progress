@@ -1,4 +1,5 @@
 async function sendPost(url, data) {
+    isCorrectElement.textContent = 'Executing...'
     const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -15,7 +16,7 @@ async function getApi(url) {
     return await response.json()
 }
 
-function renewResult(jsonStdout, showingResultIdx) {
+function renewResult(rawScript, jsonStdout, showingResultIdx) {
     let prevIdx = showingResultIdx - 1
     let nextIdx = showingResultIdx + 1
     try {
@@ -31,6 +32,9 @@ function renewResult(jsonStdout, showingResultIdx) {
     } catch (error) {
         nextResultAreaElement.innerHTML = ''
     }
+
+    // show your command
+    yourCommandElement.innerHTML = '<b>'+rawScript.split('|').slice(0, showingResultIdx + 1).join('|')+'</b>'+'👀'+rawScript.split('|').slice(showingResultIdx + 1).join('|')
 }
 
 let problemsElement = document.getElementById('problems')
@@ -41,6 +45,7 @@ let nextResultAreaElement = document.getElementById('next-result')
 let isCorrectElement = document.getElementById('is-correct')
 let prevButtonElement = document.getElementById('prev-button')
 let nextButtonElement = document.getElementById('next-button')
+let yourCommandElement = document.getElementById('your-command')
 // get all problems
 getApi('/problems').then(data => {
     // show problems
@@ -64,7 +69,8 @@ getApi('/problems').then(data => {
 
         // submit solution
         document.getElementById(`send-button-${problem.id}`).addEventListener('click', () => {
-            let urlEncodedScript = encodeURIComponent(document.getElementById(problemElementInputareaID).value)
+            let rawScript = document.getElementById(problemElementInputareaID).value
+            let urlEncodedScript = encodeURIComponent(rawScript)
             let answerRequestBody = {
                 "username": "sample",
                 "script": urlEncodedScript
@@ -84,33 +90,33 @@ getApi('/problems').then(data => {
                     // 現在注目している出力のインデックス
                     let showingResultIdx = finalCommandResultPhase
                     // show final result
-                    renewResult(jsonStdout, showingResultIdx)
+                    renewResult(rawScript, jsonStdout, showingResultIdx)
                     prevButtonElement.addEventListener('click', e => {
                         // 0 or lower: do nothing
                         if (showingResultIdx > 0) {
                             showingResultIdx -= 1
-                            renewResult(jsonStdout, showingResultIdx)
+                            renewResult(rawScript, jsonStdout, showingResultIdx)
                         }
                     })
                     nextButtonElement.addEventListener('click', e => {
                         // last array idx or higher: do nothing
                         if (showingResultIdx < finalCommandResultPhase) {
                             showingResultIdx += 1
-                            renewResult(jsonStdout, showingResultIdx)
+                            renewResult(rawScript, jsonStdout, showingResultIdx)
                         }
                     })
                 }
 
                 // C or W
                 if (response.is_correct) {
-                    isCorrectElement.innerHTML = 'Correct!'
+                    isCorrectElement.textContent = 'Correct!'
                 } else {
-                    isCorrectElement.innerHTML = 'Incorrect!'
+                    isCorrectElement.textContent = 'Incorrect!'
                 }
             }, error => {
                 // コマンドがおかしくて実行エラーが出た場合、コンテナが死んでしまう。
                 // つまりフロントに返るのは`Internal Server Error`という文字列。
-                resultAreaElement.innerHTML = "Error...<br>The command could not be executed correctly."
+                currentResultAreaElement.innerHTML = "Error...<br>The command could not be executed correctly."
                 isCorrectElement.innerHTML = 'Error!'
             })
         })
