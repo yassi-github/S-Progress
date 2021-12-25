@@ -59,6 +59,8 @@ getApi('/problems').then(data => {
                 <h3>${problem.title}</h3>
                 <p>${problem.text}</p>
                 <a onclick="" href="problems/${problem.id}/file">No.${problem.id} Question File</a>
+                <a href="problems/${problem.id}/hint1">No.${problem.id} Hint 1</a>
+                <a href="problems/${problem.id}/hint2">No.${problem.id} Hint 2</a>
             </div>
             <div id="input-area">
                 <input autofocus type="text" size="50" id="${problemElementInputareaID}" placeholder="cat q_${problem.id}.txt | ...">
