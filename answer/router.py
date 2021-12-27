@@ -38,12 +38,17 @@ def generate_json_command(COMMAND: str) -> str:
     for idx, command in enumerate(command_list):
         uni_command_resultfiledir_include_endofslash = "/tmp/"
         uni_command_resultfilename = f"{uni_command_resultfiledir_include_endofslash}result_{idx}"
-        execute_command += f"{command} | tee {uni_command_resultfilename}"
+        if idx == NUM_CMD - 1:
+            # trailing leading spaces.
+            # cuz pyyaml loads without holding spaces...
+            execute_command += f"{command}" + ' | awk \'{$1=$1}; 1\' ' + f" | tee {uni_command_resultfilename}"
+        else:
+            execute_command += f"{command} | tee {uni_command_resultfilename}"
         create_jq_command += SH.replace('__result_idx__', str(idx)).replace('__result_file__', uni_command_resultfilename)
         # if idx > (NUM_CMD - 2): break
         execute_command += "|"
 
-    execute_command = f"{execute_command[:-1]} >/dev/null ; "
+    execute_command = f"{execute_command[:-1]}" + " >/dev/null " + " ; "
 
     create_jq_command = create_jq_command[:-1]
     create_jq_command += ''']}' | jq'''
@@ -102,7 +107,7 @@ def docker_run_container(client: docker.models.containers.Container, host_projec
     # コンテナの作成
     try:
     # subprocess.run(f'docker run --net="none" --pids-limit=500 -d --name="routerpytest1" -v {host_projectdir}/answer/script_files/:/script_files/ alpine-cmd {command_file_path}', shell=True)
-    #     container = client.containers.run(image="alpine-cmd", command=f"{command_file_path}", detach=True, name=name, volumes={f'{host_projectdir}/answer/script_files/': {'bind': '/script_files/', 'mode': 'rw'}})
+        # container = client.containers.run(image="alpine-cmd", command=f"{command_file_path} ; rm {command_file_path}", detach=True, name=name, volumes={f'{host_projectdir}/answer/script_files/': {'bind': '/script_files/', 'mode': 'rw'}})
         container = client.containers.run(image="alpine-cmd", command=f"{command_file_path} ; rm {command_file_path}", detach=True, network_disabled=True, mem_limit='128m', pids_limit=500,
                                           cpu_period=50000, cpu_quota=25000, ulimits=[docker.types.Ulimit(name='fsize', soft=1000000, hard=10000000)],
                                           runtime="runsc", name=name, volumes={f'{host_projectdir}/answer/script_files/': {'bind': '/script_files/', 'mode': 'rw'}})
@@ -113,7 +118,12 @@ def docker_run_container(client: docker.models.containers.Container, host_projec
         # 実行エラー。ファイルの実行ができない場合。なかなか起きないはず。
         container = exc.container
         raise HTTPException(status_code=444, detail=container.logs().decode())
-
+    # コマンド実行失敗時、エラーが取れない。別の場所でエラーが発生している？
+    # except:
+    #     import sys
+    #     raise HTTPException(status_code=444, detail=sys.exc_info())
+    # raise HTTPException(status_code=444, detail=sys.exc_info())
+    
     # container state が Exited になるまで待つ
     # client.containers.get(name).status なら、リアルタイムのstatusを取得できる
     # container.status は、run時のstatusを保持している
