@@ -1,24 +1,19 @@
 - title: invalid user counter
   description: |
     不正なログインは、よくあるユーザー名を利用して試みられている。
-    `/var/log/auth.log`にある無効なユーザー名を名前ごとに数え上げ、降順でカウントした数とともに10個表示せよ。
-    `/var/log/auth.log`は特権ユーザーしか読めないため、特別に`Question1.txt`に同様の内容を記載している。これを使用せよ。
+    `/var/log/auth.log`にある無効なユーザー名を名前ごとに数え上げ、降順でカウントした数とともに5個表示せよ。
+    `/var/log/auth.log`は特権ユーザーしか読めないため、特別に`q_2.txt`に同様の内容を記載している。これを使用せよ。
 
     使用コマンド: cut, grep, head, sort, uniq
 
   answer:
-    shell: grep 'Invalid user' Question.txt | cut -d' ' -f 8 | sort | uniq -c | sort -nr | head -10
+    shell: grep 'Invalid user' q_2.txt | cut -d' ' -f 8 | sort | uniq -c | sort -nr | head -5
     result: |
-      386 admin
-       56 user
-       55 eng
-       54 kagawau
-       52 boulez
-       45 ubnt
-       37 test
-       31 ftpuser
-       30 pi
-       28 ftp
+      7 test
+      7 postgres
+      7 git
+      6 hadoop
+      2 admin
   hint:
     hint1: |
       uniqコマンドは、繰り返された行が隣接していないとマージしません。最初に入力をソートするとよいです。
