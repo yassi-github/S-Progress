@@ -54,16 +54,17 @@ getApi('/problems').then(data => {
         let problemElementInputareaID = 'input-command-' + problem.id
         problemElement.className = 'problem'
         problemElement.id = 'problem-' + problem.id
+        let problemTextBr = problem.text.replaceAll('\n', '<br>')
         problemElement.innerHTML = `
             <div class="problem-title">
                 <h3>${problem.title}</h3>
-                <p>${problem.text}</p>
+                <p>${problemTextBr}</p>
                 <a onclick="" href="problems/${problem.id}/file">No.${problem.id} Question File</a>
                 <a href="problems/${problem.id}/hint1">No.${problem.id} Hint 1</a>
                 <a href="problems/${problem.id}/hint2">No.${problem.id} Hint 2</a>
             </div>
             <div id="input-area">
-                <input autofocus type="text" size="50" id="${problemElementInputareaID}" placeholder="cat q_${problem.id}.txt | ...">
+                <input autofocus type="text" id="${problemElementInputareaID}" placeholder="cat q_${problem.id}.txt | ..." style="width: 90%;">
                 <button id="send-button-${problem.id}">EXECUTE</button>
             </div>
             `
