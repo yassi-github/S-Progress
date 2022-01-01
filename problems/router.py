@@ -49,7 +49,7 @@ async def update_problem(database: Database = Depends(get_connection)):
         # ReadFromYAMLAnswer
         if tuple_idx == 1:
             for idx, elem in enumerate(tuple_elem):
-                # values[idx]['shell'] = elem.shell
+                values[idx]['shell'] = elem.shell
                 values[idx]['correct_ans'] = hashlib.sha256(elem.result.encode()).hexdigest()
         # ReadFromYAMLHint
         if tuple_idx == 2:
@@ -64,7 +64,7 @@ async def update_problem(database: Database = Depends(get_connection)):
 
     # query_raw = "INSERT INTO problems(id, title, text, correct_ans) VALUES (:id, :title, :text, :correct_ans)"
     # query_raw = 'INSERT INTO problems (id, title, text, correct_ans) VALUES (:id, :title, :description, :result)'
-    query_raw = 'INSERT INTO problems (id, title, text, hint1, hint2, correct_ans) VALUES (:id, :title, :text, :hint1, :hint2, :correct_ans) ON CONFLICT ON CONSTRAINT "problems_id_key" DO UPDATE SET title = :title, text = :text, hint1 = :hint1, hint2 = :hint2, correct_ans = :correct_ans'
+    query_raw = 'INSERT INTO problems (id, title, text, hint1, hint2, shell, correct_ans) VALUES (:id, :title, :text, :hint1, :hint2, :shell, :correct_ans) ON CONFLICT ON CONSTRAINT "problems_id_key" DO UPDATE SET title = :title, text = :text, hint1 = :hint1, hint2 = :hint2, shell = :shell, correct_ans = :correct_ans'
     # values = [
     #    {"id": 7, "title": "hogehoge_title1", "text": "hugahuga_text1", "correct_ans": "piyopiyo_ans1"},
     #    {"id": 8, "title": "hogehoge_title2", "text": "hugahuga_tex_2", "correct_ans": "piyopiyo_as_2"},
@@ -94,4 +94,9 @@ async def users_findone(problem_id: int, database: Database = Depends(get_connec
 @router.get("/problems/{problem_id}/hint2")
 async def users_findone(problem_id: int, database: Database = Depends(get_connection)):
     query = 'SELECT hint2 FROM problems WHERE id = :id'
+    return await database.fetch_one(query=query, values={"id": problem_id})
+
+@router.get("/problems/{problem_id}/answer")
+async def users_findone(problem_id: int, database: Database = Depends(get_connection)):
+    query = 'SELECT shell FROM problems WHERE id = :id'
     return await database.fetch_one(query=query, values={"id": problem_id})

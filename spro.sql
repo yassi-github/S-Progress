@@ -68,6 +68,7 @@ CREATE TABLE public.problems (
     text character varying,
     hint1 character varying,
     hint2 character varying,
+    shell character varying,
     correct_ans character varying
 );
 
@@ -168,8 +169,8 @@ COPY public.answers (number_of_trial, problem_id, username, script, is_correct, 
 -- Data for Name: problems; Type: TABLE DATA; Schema: public; Owner: root
 --
 
-COPY public.problems (id, title, text, hint1, hint2, correct_ans) FROM stdin;
-1	[Tutorial]esreveR	テキストを反転して表示せよ	hint1	hint2	dc738a32870c7ee3a60e8f912a2eed3882114cc706f424838b06a58e242dbbb9
+COPY public.problems (id, title, text, hint1, hint2, shell, correct_ans) FROM stdin;
+1	[Tutorial]esreveR	テキストを反転して表示せよ	hint1	hint2	cat q_1.txt | rev	dc738a32870c7ee3a60e8f912a2eed3882114cc706f424838b06a58e242dbbb9
 \.
 
 
