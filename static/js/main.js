@@ -63,7 +63,7 @@ getApi('/problems').then(data => {
             <div class="problem-title">
                 <h3>${problem.title}</h3>
                 <p>${problemTextBr}</p>
-                <a onclick="" href="problems/${problem.id}/file">No.${problem.id} Question File</a>
+                <a onclick="" href="problems/${problem.id}/file">q_${problem.id}.txt</a>
                 <button id="hint1-${problem.id}">Hint 1</button>
                 <button id="hint2-${problem.id}">Hint 2</button>
                 <button id="answer-${problem.id}" style="display: none;">Answer</button>
