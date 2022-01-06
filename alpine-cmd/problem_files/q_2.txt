@@ -1,100 +1,100 @@
-Dec 27 14:36:35 Гангут sshd[392301]: Received disconnect from 139.59.29.219 port 53562:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:36:35 Гангут sshd[392301]: Disconnected from invalid user ubuntu 139.59.29.219 port 53562 [preauth]
-Dec 27 14:37:02 Гангут sshd[392394]: Invalid user ubuntu from 139.59.29.219 port 44762
-Dec 27 14:37:02 Гангут sshd[392394]: Received disconnect from 139.59.29.219 port 44762:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:37:02 Гангут sshd[392394]: Disconnected from invalid user ubuntu 139.59.29.219 port 44762 [preauth]
-Dec 27 14:37:31 Гангут sshd[392483]: Invalid user postgres from 139.59.29.219 port 35924
-Dec 27 14:37:31 Гангут sshd[392483]: Received disconnect from 139.59.29.219 port 35924:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:37:31 Гангут sshd[392483]: Disconnected from invalid user postgres 139.59.29.219 port 35924 [preauth]
-Dec 27 14:37:59 Гангут sshd[392565]: Invalid user postgres from 139.59.29.219 port 55344
-Dec 27 14:37:59 Гангут sshd[392565]: Received disconnect from 139.59.29.219 port 55344:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:37:59 Гангут sshd[392565]: Disconnected from invalid user postgres 139.59.29.219 port 55344 [preauth]
-Dec 27 14:38:27 Гангут sshd[392647]: Invalid user postgres from 139.59.29.219 port 46540
-Dec 27 14:38:27 Гангут sshd[392647]: Received disconnect from 139.59.29.219 port 46540:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:38:27 Гангут sshd[392647]: Disconnected from invalid user postgres 139.59.29.219 port 46540 [preauth]
-Dec 27 14:38:40 Гангут sshd[392692]: Invalid user admin from 45.145.64.158 port 45317
-Dec 27 14:38:41 Гангут sshd[392692]: Received disconnect from 45.145.64.158 port 45317:11: Client disconnecting normally [preauth]
-Dec 27 14:38:41 Гангут sshd[392692]: Disconnected from invalid user admin 45.145.64.158 port 45317 [preauth]
-Dec 27 14:38:55 Гангут sshd[392738]: Invalid user postgres from 139.59.29.219 port 37684
-Dec 27 14:38:55 Гангут sshd[392738]: Received disconnect from 139.59.29.219 port 37684:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:38:55 Гангут sshd[392738]: Disconnected from invalid user postgres 139.59.29.219 port 37684 [preauth]
-Dec 27 14:39:23 Гангут sshd[392820]: Invalid user postgres from 139.59.29.219 port 57132
-Dec 27 14:39:23 Гангут sshd[392820]: Received disconnect from 139.59.29.219 port 57132:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:39:23 Гангут sshd[392820]: Disconnected from invalid user postgres 139.59.29.219 port 57132 [preauth]
-Dec 27 14:39:52 Гангут sshd[392910]: Invalid user postgres from 139.59.29.219 port 48336
-Dec 27 14:39:53 Гангут sshd[392910]: Received disconnect from 139.59.29.219 port 48336:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:39:53 Гангут sshd[392910]: Disconnected from invalid user postgres 139.59.29.219 port 48336 [preauth]
-Dec 27 14:40:23 Гангут sshd[393005]: Invalid user postgres from 139.59.29.219 port 39506
-Dec 27 14:40:23 Гангут sshd[393005]: Received disconnect from 139.59.29.219 port 39506:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:40:23 Гангут sshd[393005]: Disconnected from invalid user postgres 139.59.29.219 port 39506 [preauth]
-Dec 27 14:40:50 Гангут sshd[393088]: Invalid user test from 139.59.29.219 port 58920
-Dec 27 14:40:50 Гангут sshd[393088]: Received disconnect from 139.59.29.219 port 58920:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:40:50 Гангут sshd[393088]: Disconnected from invalid user test 139.59.29.219 port 58920 [preauth]
-Dec 27 14:40:52 Гангут sshd[393086]: Received disconnect from 222.187.254.41 port 18044:11:  [preauth]
-Dec 27 14:40:52 Гангут sshd[393086]: Disconnected from authenticating user root 222.187.254.41 port 18044 [preauth]
-Dec 27 14:41:16 Гангут sshd[393164]: Invalid user test from 139.59.29.219 port 50110
-Dec 27 14:41:16 Гангут sshd[393164]: Received disconnect from 139.59.29.219 port 50110:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:41:16 Гангут sshd[393164]: Disconnected from invalid user test 139.59.29.219 port 50110 [preauth]
-Dec 27 14:41:43 Гангут sshd[393246]: Invalid user test from 139.59.29.219 port 41298
-Dec 27 14:41:43 Гангут sshd[393246]: Received disconnect from 139.59.29.219 port 41298:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:41:43 Гангут sshd[393246]: Disconnected from invalid user test 139.59.29.219 port 41298 [preauth]
-Dec 27 14:42:11 Гангут sshd[393334]: Invalid user test from 139.59.29.219 port 60712
-Dec 27 14:42:11 Гангут sshd[393334]: Received disconnect from 139.59.29.219 port 60712:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:42:11 Гангут sshd[393334]: Disconnected from invalid user test 139.59.29.219 port 60712 [preauth]
+Dec 27 14:36:35 Гангут sshd[392301]: Received disconnect from 139.59.29.000 port 53562:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:36:35 Гангут sshd[392301]: Disconnected from invalid user ubuntu 139.59.29.000 port 53562 [preauth]
+Dec 27 14:37:02 Гангут sshd[392394]: Invalid user ubuntu from 139.59.29.000 port 44762
+Dec 27 14:37:02 Гангут sshd[392394]: Received disconnect from 139.59.29.000 port 44762:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:37:02 Гангут sshd[392394]: Disconnected from invalid user ubuntu 139.59.29.000 port 44762 [preauth]
+Dec 27 14:37:31 Гангут sshd[392483]: Invalid user postgres from 139.59.29.000 port 35924
+Dec 27 14:37:31 Гангут sshd[392483]: Received disconnect from 139.59.29.000 port 35924:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:37:31 Гангут sshd[392483]: Disconnected from invalid user postgres 139.59.29.000 port 35924 [preauth]
+Dec 27 14:37:59 Гангут sshd[392565]: Invalid user postgres from 139.59.29.000 port 55344
+Dec 27 14:37:59 Гангут sshd[392565]: Received disconnect from 139.59.29.000 port 55344:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:37:59 Гангут sshd[392565]: Disconnected from invalid user postgres 139.59.29.000 port 55344 [preauth]
+Dec 27 14:38:27 Гангут sshd[392647]: Invalid user postgres from 139.59.29.000 port 46540
+Dec 27 14:38:27 Гангут sshd[392647]: Received disconnect from 139.59.29.000 port 46540:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:38:27 Гангут sshd[392647]: Disconnected from invalid user postgres 139.59.29.000 port 46540 [preauth]
+Dec 27 14:38:40 Гангут sshd[392692]: Invalid user admin from 45.145.64.000 port 45317
+Dec 27 14:38:41 Гангут sshd[392692]: Received disconnect from 45.145.64.000 port 45317:11: Client disconnecting normally [preauth]
+Dec 27 14:38:41 Гангут sshd[392692]: Disconnected from invalid user admin 45.145.64.000 port 45317 [preauth]
+Dec 27 14:38:55 Гангут sshd[392738]: Invalid user postgres from 139.59.29.000 port 37684
+Dec 27 14:38:55 Гангут sshd[392738]: Received disconnect from 139.59.29.000 port 37684:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:38:55 Гангут sshd[392738]: Disconnected from invalid user postgres 139.59.29.000 port 37684 [preauth]
+Dec 27 14:39:23 Гангут sshd[392820]: Invalid user postgres from 139.59.29.000 port 57132
+Dec 27 14:39:23 Гангут sshd[392820]: Received disconnect from 139.59.29.000 port 57132:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:39:23 Гангут sshd[392820]: Disconnected from invalid user postgres 139.59.29.000 port 57132 [preauth]
+Dec 27 14:39:52 Гангут sshd[392910]: Invalid user postgres from 139.59.29.000 port 48336
+Dec 27 14:39:53 Гангут sshd[392910]: Received disconnect from 139.59.29.000 port 48336:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:39:53 Гангут sshd[392910]: Disconnected from invalid user postgres 139.59.29.000 port 48336 [preauth]
+Dec 27 14:40:23 Гангут sshd[393005]: Invalid user postgres from 139.59.29.000 port 39506
+Dec 27 14:40:23 Гангут sshd[393005]: Received disconnect from 139.59.29.000 port 39506:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:40:23 Гангут sshd[393005]: Disconnected from invalid user postgres 139.59.29.000 port 39506 [preauth]
+Dec 27 14:40:50 Гангут sshd[393088]: Invalid user test from 139.59.29.000 port 58920
+Dec 27 14:40:50 Гангут sshd[393088]: Received disconnect from 139.59.29.000 port 58920:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:40:50 Гангут sshd[393088]: Disconnected from invalid user test 139.59.29.000 port 58920 [preauth]
+Dec 27 14:40:52 Гангут sshd[393086]: Received disconnect from 222.187.254.000 port 18044:11:  [preauth]
+Dec 27 14:40:52 Гангут sshd[393086]: Disconnected from authenticating user root 222.187.254.000 port 18044 [preauth]
+Dec 27 14:41:16 Гангут sshd[393164]: Invalid user test from 139.59.29.000 port 50110
+Dec 27 14:41:16 Гангут sshd[393164]: Received disconnect from 139.59.29.000 port 50110:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:41:16 Гангут sshd[393164]: Disconnected from invalid user test 139.59.29.000 port 50110 [preauth]
+Dec 27 14:41:43 Гангут sshd[393246]: Invalid user test from 139.59.29.000 port 41298
+Dec 27 14:41:43 Гангут sshd[393246]: Received disconnect from 139.59.29.000 port 41298:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:41:43 Гангут sshd[393246]: Disconnected from invalid user test 139.59.29.000 port 41298 [preauth]
+Dec 27 14:42:11 Гангут sshd[393334]: Invalid user test from 139.59.29.000 port 60712
+Dec 27 14:42:11 Гангут sshd[393334]: Received disconnect from 139.59.29.000 port 60712:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:42:11 Гангут sshd[393334]: Disconnected from invalid user test 139.59.29.000 port 60712 [preauth]
 Dec 27 14:42:33 Гангут sshd[393400]: error: kex_exchange_identification: Connection closed by remote host
-Dec 27 14:42:37 Гангут sshd[393413]: Invalid user test from 139.59.29.219 port 51894
-Dec 27 14:42:37 Гангут sshd[393413]: Received disconnect from 139.59.29.219 port 51894:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:42:37 Гангут sshd[393413]: Disconnected from invalid user test 139.59.29.219 port 51894 [preauth]
-Dec 27 14:43:04 Гангут sshd[393495]: Invalid user test from 139.59.29.219 port 43078
-Dec 27 14:43:04 Гангут sshd[393495]: Received disconnect from 139.59.29.219 port 43078:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:43:04 Гангут sshd[393495]: Disconnected from invalid user test 139.59.29.219 port 43078 [preauth]
-Dec 27 14:43:33 Гангут sshd[393584]: Invalid user test from 139.59.29.219 port 34262
-Dec 27 14:43:33 Гангут sshd[393584]: Received disconnect from 139.59.29.219 port 34262:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:43:33 Гангут sshd[393584]: Disconnected from invalid user test 139.59.29.219 port 34262 [preauth]
-Dec 27 14:44:03 Гангут sshd[393672]: Invalid user git from 139.59.29.219 port 53676
-Dec 27 14:44:03 Гангут sshd[393672]: Received disconnect from 139.59.29.219 port 53676:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:44:03 Гангут sshd[393672]: Disconnected from invalid user git 139.59.29.219 port 53676 [preauth]
-Dec 27 14:44:33 Гангут sshd[393767]: Invalid user git from 139.59.29.219 port 44862
-Dec 27 14:44:33 Гангут sshd[393767]: Received disconnect from 139.59.29.219 port 44862:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:44:33 Гангут sshd[393767]: Disconnected from invalid user git 139.59.29.219 port 44862 [preauth]
-Dec 27 14:45:01 Гангут sshd[393852]: Invalid user git from 139.59.29.219 port 36046
-Dec 27 14:45:01 Гангут sshd[393852]: Received disconnect from 139.59.29.219 port 36046:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:45:01 Гангут sshd[393852]: Disconnected from invalid user git 139.59.29.219 port 36046 [preauth]
-Dec 27 14:45:29 Гангут sshd[393937]: Invalid user git from 139.59.29.219 port 55464
-Dec 27 14:45:29 Гангут sshd[393937]: Received disconnect from 139.59.29.219 port 55464:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:45:29 Гангут sshd[393937]: Disconnected from invalid user git 139.59.29.219 port 55464 [preauth]
-Dec 27 14:45:56 Гангут sshd[394020]: Invalid user git from 139.59.29.219 port 46648
-Dec 27 14:45:56 Гангут sshd[394020]: Received disconnect from 139.59.29.219 port 46648:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:45:56 Гангут sshd[394020]: Disconnected from invalid user git 139.59.29.219 port 46648 [preauth]
-Dec 27 14:46:24 Гангут sshd[394107]: Invalid user git from 139.59.29.219 port 37828
-Dec 27 14:46:24 Гангут sshd[394107]: Received disconnect from 139.59.29.219 port 37828:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:46:24 Гангут sshd[394107]: Disconnected from invalid user git 139.59.29.219 port 37828 [preauth]
-Dec 27 14:46:52 Гангут sshd[394191]: Invalid user git from 139.59.29.219 port 57248
-Dec 27 14:46:52 Гангут sshd[394191]: Received disconnect from 139.59.29.219 port 57248:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:46:52 Гангут sshd[394191]: Disconnected from invalid user git 139.59.29.219 port 57248 [preauth]
-Dec 27 14:47:19 Гангут sshd[394279]: Invalid user hadoop from 139.59.29.219 port 48426
-Dec 27 14:47:19 Гангут sshd[394279]: Received disconnect from 139.59.29.219 port 48426:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:47:19 Гангут sshd[394279]: Disconnected from invalid user hadoop 139.59.29.219 port 48426 [preauth]
-Dec 27 14:47:47 Гангут sshd[394364]: Invalid user hadoop from 139.59.29.219 port 39612
-Dec 27 14:47:47 Гангут sshd[394364]: Received disconnect from 139.59.29.219 port 39612:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:47:47 Гангут sshd[394364]: Disconnected from invalid user hadoop 139.59.29.219 port 39612 [preauth]
-Dec 27 14:48:15 Гангут sshd[394559]: Invalid user hadoop from 139.59.29.219 port 59024
-Dec 27 14:48:15 Гангут sshd[394559]: Received disconnect from 139.59.29.219 port 59024:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:48:15 Гангут sshd[394559]: Disconnected from invalid user hadoop 139.59.29.219 port 59024 [preauth]
-Dec 27 14:48:32 Гангут sshd[394563]: Accepted publickey for yassi-github from 192.168.12.200 port 50482 ssh2: ED25519 SHA256:1na0xfvGMhonSSTyrf0lOjJwWXGL+wTM64nITsBUexI
+Dec 27 14:42:37 Гангут sshd[393413]: Invalid user test from 139.59.29.000 port 51894
+Dec 27 14:42:37 Гангут sshd[393413]: Received disconnect from 139.59.29.000 port 51894:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:42:37 Гангут sshd[393413]: Disconnected from invalid user test 139.59.29.000 port 51894 [preauth]
+Dec 27 14:43:04 Гангут sshd[393495]: Invalid user test from 139.59.29.000 port 43078
+Dec 27 14:43:04 Гангут sshd[393495]: Received disconnect from 139.59.29.000 port 43078:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:43:04 Гангут sshd[393495]: Disconnected from invalid user test 139.59.29.000 port 43078 [preauth]
+Dec 27 14:43:33 Гангут sshd[393584]: Invalid user test from 139.59.29.000 port 34262
+Dec 27 14:43:33 Гангут sshd[393584]: Received disconnect from 139.59.29.000 port 34262:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:43:33 Гангут sshd[393584]: Disconnected from invalid user test 139.59.29.000 port 34262 [preauth]
+Dec 27 14:44:03 Гангут sshd[393672]: Invalid user git from 139.59.29.000 port 53676
+Dec 27 14:44:03 Гангут sshd[393672]: Received disconnect from 139.59.29.000 port 53676:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:44:03 Гангут sshd[393672]: Disconnected from invalid user git 139.59.29.000 port 53676 [preauth]
+Dec 27 14:44:33 Гангут sshd[393767]: Invalid user git from 139.59.29.000 port 44862
+Dec 27 14:44:33 Гангут sshd[393767]: Received disconnect from 139.59.29.000 port 44862:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:44:33 Гангут sshd[393767]: Disconnected from invalid user git 139.59.29.000 port 44862 [preauth]
+Dec 27 14:45:01 Гангут sshd[393852]: Invalid user git from 139.59.29.000 port 36046
+Dec 27 14:45:01 Гангут sshd[393852]: Received disconnect from 139.59.29.000 port 36046:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:45:01 Гангут sshd[393852]: Disconnected from invalid user git 139.59.29.000 port 36046 [preauth]
+Dec 27 14:45:29 Гангут sshd[393937]: Invalid user git from 139.59.29.000 port 55464
+Dec 27 14:45:29 Гангут sshd[393937]: Received disconnect from 139.59.29.000 port 55464:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:45:29 Гангут sshd[393937]: Disconnected from invalid user git 139.59.29.000 port 55464 [preauth]
+Dec 27 14:45:56 Гангут sshd[394020]: Invalid user git from 139.59.29.000 port 46648
+Dec 27 14:45:56 Гангут sshd[394020]: Received disconnect from 139.59.29.000 port 46648:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:45:56 Гангут sshd[394020]: Disconnected from invalid user git 139.59.29.000 port 46648 [preauth]
+Dec 27 14:46:24 Гангут sshd[394107]: Invalid user git from 139.59.29.000 port 37828
+Dec 27 14:46:24 Гангут sshd[394107]: Received disconnect from 139.59.29.000 port 37828:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:46:24 Гангут sshd[394107]: Disconnected from invalid user git 139.59.29.000 port 37828 [preauth]
+Dec 27 14:46:52 Гангут sshd[394191]: Invalid user git from 139.59.29.000 port 57248
+Dec 27 14:46:52 Гангут sshd[394191]: Received disconnect from 139.59.29.000 port 57248:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:46:52 Гангут sshd[394191]: Disconnected from invalid user git 139.59.29.000 port 57248 [preauth]
+Dec 27 14:47:19 Гангут sshd[394279]: Invalid user hadoop from 139.59.29.000 port 48426
+Dec 27 14:47:19 Гангут sshd[394279]: Received disconnect from 139.59.29.000 port 48426:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:47:19 Гангут sshd[394279]: Disconnected from invalid user hadoop 139.59.29.000 port 48426 [preauth]
+Dec 27 14:47:47 Гангут sshd[394364]: Invalid user hadoop from 139.59.29.000 port 39612
+Dec 27 14:47:47 Гангут sshd[394364]: Received disconnect from 139.59.29.000 port 39612:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:47:47 Гангут sshd[394364]: Disconnected from invalid user hadoop 139.59.29.000 port 39612 [preauth]
+Dec 27 14:48:15 Гангут sshd[394559]: Invalid user hadoop from 139.59.29.000 port 59024
+Dec 27 14:48:15 Гангут sshd[394559]: Received disconnect from 139.59.29.000 port 59024:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:48:15 Гангут sshd[394559]: Disconnected from invalid user hadoop 139.59.29.000 port 59024 [preauth]
+Dec 27 14:48:32 Гангут sshd[394563]: Accepted publickey for yassi-github from 192.168.12.000 port 50482 ssh2: ED25519 SHA256:1na0xfvGMhonSSTyrf0lOjJwWXGL+wTM64nITsBUexI
 Dec 27 14:48:32 Гангут sshd[394563]: pam_unix(sshd:session): session opened for user yassi-github by (uid=0)
 Dec 27 14:48:32 Гангут systemd-logind[829]: New session 1069 of user yassi-github.
-Dec 27 14:48:43 Гангут sshd[394701]: Invalid user hadoop from 139.59.29.219 port 50206
-Dec 27 14:48:43 Гангут sshd[394701]: Received disconnect from 139.59.29.219 port 50206:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:48:43 Гангут sshd[394701]: Disconnected from invalid user hadoop 139.59.29.219 port 50206 [preauth]
-Dec 27 14:48:50 Гангут sshd[394704]: Invalid user admin from 92.255.85.37 port 39964
-Dec 27 14:48:50 Гангут sshd[394704]: Received disconnect from 92.255.85.37 port 39964:11: Bye Bye [preauth]
-Dec 27 14:48:50 Гангут sshd[394704]: Disconnected from invalid user admin 92.255.85.37 port 39964 [preauth]
-Dec 27 14:49:10 Гангут sshd[394721]: Invalid user hadoop from 139.59.29.219 port 41394
-Dec 27 14:49:10 Гангут sshd[394721]: Received disconnect from 139.59.29.219 port 41394:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:49:10 Гангут sshd[394721]: Disconnected from invalid user hadoop 139.59.29.219 port 41394 [preauth]
-Dec 27 14:49:39 Гангут sshd[394767]: Invalid user hadoop from 139.59.29.219 port 60816
-Dec 27 14:49:39 Гангут sshd[394767]: Received disconnect from 139.59.29.219 port 60816:11: Normal Shutdown, Thank you for playing [preauth]
-Dec 27 14:49:39 Гангут sshd[394767]: Disconnected from invalid user hadoop 139.59.29.219 port 60816 [preauth]
+Dec 27 14:48:43 Гангут sshd[394701]: Invalid user hadoop from 139.59.29.000 port 50206
+Dec 27 14:48:43 Гангут sshd[394701]: Received disconnect from 139.59.29.000 port 50206:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:48:43 Гангут sshd[394701]: Disconnected from invalid user hadoop 139.59.29.000 port 50206 [preauth]
+Dec 27 14:48:50 Гангут sshd[394704]: Invalid user admin from 92.255.85.000 port 39964
+Dec 27 14:48:50 Гангут sshd[394704]: Received disconnect from 92.255.85.000 port 39964:11: Bye Bye [preauth]
+Dec 27 14:48:50 Гангут sshd[394704]: Disconnected from invalid user admin 92.255.85.000 port 39964 [preauth]
+Dec 27 14:49:10 Гангут sshd[394721]: Invalid user hadoop from 139.59.29.000 port 41394
+Dec 27 14:49:10 Гангут sshd[394721]: Received disconnect from 139.59.29.000 port 41394:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:49:10 Гангут sshd[394721]: Disconnected from invalid user hadoop 139.59.29.000 port 41394 [preauth]
+Dec 27 14:49:39 Гангут sshd[394767]: Invalid user hadoop from 139.59.29.000 port 60816
+Dec 27 14:49:39 Гангут sshd[394767]: Received disconnect from 139.59.29.000 port 60816:11: Normal Shutdown, Thank you for playing [preauth]
+Dec 27 14:49:39 Гангут sshd[394767]: Disconnected from invalid user hadoop 139.59.29.000 port 60816 [preauth]
 Dec 27 14:49:40 Гангут sudo:       yassi-github : TTY=pts/0 ; PWD=/home/yassi-github ; USER=root ; COMMAND=/usr/bin/tail -100 /var/log/auth.log
 Dec 27 14:49:40 Гангут sudo: pam_unix(sudo:session): session opened for user root by yassi-github(uid=0)
