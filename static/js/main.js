@@ -24,9 +24,9 @@ function renewResult(rawScript, jsonStdout, showingResultIdx) {
     } catch (error) {
         prevResultAreaElement.innerHTML = ''
     }
-    
+
     currentResultAreaElement.innerHTML = jsonStdout[showingResultIdx][showingResultIdx].join('<br>')
-    
+
     try {
         nextResultAreaElement.innerHTML = jsonStdout[nextIdx][nextIdx].join('<br>')
     } catch (error) {
@@ -34,7 +34,20 @@ function renewResult(rawScript, jsonStdout, showingResultIdx) {
     }
 
     // show your command
-    yourCommandElement.innerHTML = '<b>'+rawScript.split('|').slice(0, showingResultIdx + 1).join('|')+'</b>'+'👀'+rawScript.split('|').slice(showingResultIdx + 1).join('|')
+    let spanInsertedScript = '<span>' + rawScript.replaceAll('|', '</span>|<span>') + '</span>'
+    yourCommandElement.innerHTML = '<b>'
+        + spanInsertedScript.split('|').slice(0, showingResultIdx).join('|').replaceAll('</span>|<span>', '|').replace('<span>', '<span style="background-color: darkblue;color: white;">')
+        + '</span>|<span>'
+        + spanInsertedScript.split('|').slice(showingResultIdx, showingResultIdx + 1).join('|').replace('<span>', '<span style="background-color: black;color: white;">')
+        + '</b>' + '|'
+        + spanInsertedScript.split('|').slice(showingResultIdx + 1).join('|').replace('<span>', '<span style="background-color: forestgreen;color: white;">')
+
+
+
+    // show your command to label
+    prevLabelElement.innerText = rawScript.split('|').slice(showingResultIdx - 1, showingResultIdx)
+    currentLabelElement.innerText = rawScript.split('|').slice(showingResultIdx, showingResultIdx + 1)
+    nextLabelElement.innerText = rawScript.split('|').slice(showingResultIdx + 1, showingResultIdx + 2)
 }
 
 let problemsElement = document.getElementById('problems')
@@ -46,6 +59,9 @@ let isCorrectElement = document.getElementById('is-correct')
 let prevButtonElement = document.getElementById('prev-button')
 let nextButtonElement = document.getElementById('next-button')
 let yourCommandElement = document.getElementById('your-command')
+let prevLabelElement = document.getElementById('prev-cmd')
+let currentLabelElement = document.getElementById('current-cmd')
+let nextLabelElement = document.getElementById('next-cmd')
 
 let incorrectedCountArr = []
 

@@ -123,6 +123,18 @@ body {
     margin: 5px;
 }
 
+div.pcn-wrapper > div {
+    width: 100%;
+}   
+
+.pcn-label {
+    overflow: auto;
+    white-space: pre;
+    margin-top: unset;
+    scrollbar-width: none;
+    margin-bottom: 1%;
+}
+
 .pcn-result {
     width: 100%;
     height: 37vh;
@@ -158,7 +170,12 @@ body {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    margin-top: 0px;
+    margin: unset;
+}
+
+#your-command {
+    margin-top: 1%;
+    margin-bottom: 1%;
 }
 
 #response-area > hr:nth-child(1) {
