@@ -39,7 +39,10 @@ function renewResult(rawScript, jsonStdout, showingResultIdx) {
         + spanInsertedScript.split('|').slice(0, showingResultIdx).join('|').replaceAll('</span>|<span>', '|').replace('<span>', '<span style="background-color: darkblue;color: white;">')
         + '</span>|<span>'
         + spanInsertedScript.split('|').slice(showingResultIdx, showingResultIdx + 1).join('|').replace('<span>', '<span style="background-color: black;color: white;">')
-        + '</b>' + '|'
+        // pipe version
+        // + '</b>' + '|'
+        // PiMie version
+        + '</b>' + '👀|'
         + spanInsertedScript.split('|').slice(showingResultIdx + 1).join('|').replace('<span>', '<span style="background-color: forestgreen;color: white;">')
 
 
