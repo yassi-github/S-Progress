@@ -25,10 +25,130 @@ sys.path.append('../')
 
 router = APIRouter()
 
+def split_command(COMMAND: str) -> list:
+    # cmd = '''cat $(echo '/etc/passwd')| tr ':' '|' | grep $(echo zsh | tr 'z' 'ba') | sort '''
+    cmd = COMMAND
+
+    dq_in = False
+    sq_in = False
+    bq_in = False
+    par_in = False
+
+    dq_count = 0
+    sq_count = 0
+    bq_count = 0
+    par_count = 0
+
+    no_eval_str = ""
+    no_eval_str_list = []
+
+    for c in list(cmd):
+        if c == '"':
+            if dq_in == True:
+                dq_count -= 1
+            else:
+                dq_count += 1
+        if c == '\'':
+            if sq_in == True:
+                sq_count -= 1
+            else:
+                sq_count += 1
+        if c == '(':
+            par_count += 1
+        if c == ')':
+            par_count -= 1
+        if c == '`':
+            if bq_in == True:
+                bq_count -= 1
+            else:
+                bq_count += 1
+
+        if dq_count % 2 == 1:
+            dq_in = True
+        else:
+            dq_in = False
+
+        if sq_count % 2 == 1:
+            sq_in = True
+        else:
+            sq_in = False
+
+        if bq_count % 2 == 1:
+            bq_in = True
+        else:
+            bq_in = False
+
+        if par_count > 0:
+            par_in = True
+        else:
+            par_in = False
+
+
+        if dq_in == True or sq_in == True or bq_in == True or par_in == True:
+            no_eval_str += c
+        elif dq_in == False and sq_in == False and bq_in == False and par_in == False:
+            if no_eval_str != "":
+                no_eval_str_list.append(no_eval_str)
+            no_eval_str = ""
+
+
+    # print(cmd)
+    # cat $(echo '/etc/passwd')| tr ':' '|' | grep $(echo zsh | tr 'z' 'ba') | sort
+    # print(no_eval_str_list)
+    # ["(echo '/etc/passwd'", "':", "'|", "(echo zsh | tr 'z' 'ba'"]
+
+    cmd_list = []
+    for nes in no_eval_str_list:
+        cmd_split = cmd.split(nes)
+        cmd_list.append(cmd_split[0])
+        cmd = cmd_split[1]
+
+    cmd_list.append(cmd)
+
+    # print(cmd_list)
+    # ['cat $', ')| tr ', "' ", "' | grep $", ') | sort ']
+
+    for idx, nes in enumerate( no_eval_str_list ):
+        cmd_list[idx] += nes[0]
+        no_eval_str_list[idx] = nes[1:]
+
+
+    # print(no_eval_str_list)
+    # ["echo '/etc/passwd'", ':', '|', "echo zsh | tr 'z' 'ba'"]
+    # print(cmd_list)
+    # ['cat $(', ")| tr '", "' '", "' | grep $(", ') | sort ']
+
+    nested_list = [[]]
+
+    for cl in cmd_list:
+        if '|' in cl:
+            splcl = cl.split('|')
+            nested_list[-1].append(splcl[0])
+            for splclelm in splcl[1:]:
+                nested_list.append([splclelm])
+        else:
+            nested_list[-1].append(cl)
+
+    # nested_list
+    # [['cat $(', ')'], [" tr '", "' '", "' "], [' grep $(', ') '], [' sort ']]
+
+    cmd_list = []
+    nesl_idx = 0
+    for cmdelm in nested_list:
+        newcmd = cmdelm[0]
+        if cmdelm.__len__() > 1:
+            for idx in range(cmdelm.__len__() - 1):
+                newcmd += no_eval_str_list[nesl_idx] + cmdelm[idx + 1]
+                nesl_idx += 1
+        cmd_list.append(newcmd)
+
+    return cmd_list
+    # ["cat $(echo '/etc/passwd')", " tr ':' '|' ", " grep $(echo zsh | tr 'z' 'ba') ", ' sort ']
+
 
 def generate_json_command(COMMAND: str) -> str:
 
-    command_list = COMMAND.split('|')
+    command_list = split_command(COMMAND)
 
     execute_command = ""
     create_jq_command = '''echo '{"stdout":['''
