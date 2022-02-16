@@ -84,9 +84,9 @@ def split_command(COMMAND: str) -> list:
             par_in = False
 
 
-        if dq_in == True or sq_in == True or bq_in == True or par_in == True:
+        if dq_in == True or sq_in == True:
             no_eval_str += c
-        elif dq_in == False and sq_in == False and bq_in == False and par_in == False:
+        elif dq_in == False and sq_in == False:
             if no_eval_str != "":
                 no_eval_str_list.append(no_eval_str)
             no_eval_str = ""
