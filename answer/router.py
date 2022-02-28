@@ -99,7 +99,7 @@ def split_command(COMMAND: str) -> list:
 
     cmd_list = []
     for nes in no_eval_str_list:
-        cmd_split = cmd.split(nes)
+        cmd_split = cmd.split(nes, 1)
         cmd_list.append(cmd_split[0])
         cmd = cmd_split[1]
 
