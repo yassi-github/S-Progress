@@ -1,6 +1,6 @@
 #!/bin/bash
 
-docker-compose down
+docker compose down
 docker rm `docker ps -a | grep -e Exit -e Create -e Dead | tr -s ' ' | cut -d' ' -f 1`
 docker rmi `docker images | grep -e s-progress -e alpine-cmd -e '<none>' | tr -s ' ' | cut -d' ' -f 3`
 rm -rf answer/script_files/*

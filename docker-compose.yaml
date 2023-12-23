@@ -2,7 +2,7 @@ version: '3'
 services:
 # Nginxコンテナ
   nginx:
-    container_name: nginx_fastapi_spro
+    container_name: nginx_spro
     image: nginx:alpine
     depends_on:
       - app
@@ -16,7 +16,7 @@ services:
       - ./docker_conf/nginx/conf.d:/etc/nginx/conf.d
       - ./docker_conf/nginx/ssl:/etc/nginx/ssl
     networks:
-      fastapi_spro:
+      spro:
         ipv4_address: 172.27.1.11
 
 # アプリケーションコンテナ
@@ -24,43 +24,46 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: app_fastapi_spro
+    container_name: app_spro
     volumes:
-      - .:/fastapi/
+      - .:/spro/
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - HOSTPWD=${PWD}
-      - PYTHONPATH=/fastapi
+      - PYTHONPATH=/spro
     expose:
       - 8000
     depends_on:
-      - db
-    # args: host port user password database 
-    entrypoint: /fastapi/docker_conf/wait_postgres.sh db 5432 root password spro
-    command: bash /fastapi/docker_conf/runner.sh
+      db:
+        condition: service_healthy
     restart: always
     tty: true
     networks:
-      fastapi_spro:
+      spro:
         ipv4_address: 172.27.1.12
 
 
 # DBコンテナ
   db:
     image: postgres:12.4-alpine
-    container_name: db_fastapi_spro
+    container_name: db_spro
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=spro
       - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --locale=C
-      - PGDATA=/var/lib/postgresql/data/fastapi
+      - PGDATA=/var/lib/postgresql/data/spro
     volumes:
-      - ./db_data:/var/lib/postgresql/data
+      - db_data:/var/lib/postgresql/data
+      - ./docker_conf/postgres/initdb:/docker-entrypoint-initdb.d
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-hdb", "-Uroot", "-p5432", "-dspro"]
+      timeout: 5s
+      retries: 10
     networks:
-      fastapi_spro:
+      spro:
         ipv4_address: 172.27.1.13
 
 volumes:
@@ -68,7 +71,7 @@ volumes:
     driver: local
 
 networks:
-  fastapi_spro:
+  spro:
     ipam:
       driver: default
       config:
