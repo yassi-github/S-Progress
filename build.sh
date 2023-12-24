@@ -60,7 +60,7 @@ deploy() {
 
 case ${SUBCMD} in
 	"build" )
-		exec_go_with_stdoutput 'get -u ./... && go mod tidy && go build -o bin/ ./...'
+		exec_go_with_stdoutput 'get -u ./... && go mod tidy && go build -buildvcs=false -o bin/ ./...'
 	;;
 
     "try" )
@@ -81,6 +81,14 @@ case ${SUBCMD} in
 
 	"test" )
 		exec_go_with_stdoutput 'get -u ./... && go mod tidy && go test -v $(go list -m)/'${ARGS}
+	;;
+
+	"testall" )
+		exec_go_with_stdoutput 'get -u ./... && go mod tidy && go test -v ./...'
+	;;
+
+	"format" )
+		exec_go_with_stdoutput 'fmt ./...'
 	;;
 
 	"deploy" )

@@ -1,5 +1,12 @@
 version: '3'
 services:
+  builder:
+    build:
+      context: .
+      dockerfile: Dockerfile.builder
+    networks:
+      - spro_net
+
 # Nginxコンテナ
   nginx:
     container_name: nginx_spro
@@ -7,6 +14,7 @@ services:
     depends_on:
       - app
       - db
+      - builder
     environment:
       TZ: "Asia/Tokyo"
     ports:
@@ -16,7 +24,7 @@ services:
       - ./docker_conf/nginx/conf.d:/etc/nginx/conf.d
       - ./docker_conf/nginx/ssl:/etc/nginx/ssl
     networks:
-      spro:
+      spro_net:
         ipv4_address: 172.27.1.11
 
 # アプリケーションコンテナ
@@ -26,20 +34,20 @@ services:
       dockerfile: Dockerfile
     container_name: app_spro
     volumes:
-      - .:/spro/
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - HOSTPWD=${PWD}
-      - PYTHONPATH=/spro
     expose:
       - 8000
     depends_on:
+      builder:
+        condition: service_started
       db:
         condition: service_healthy
     restart: always
     tty: true
     networks:
-      spro:
+      spro_net:
         ipv4_address: 172.27.1.12
 
 
@@ -63,7 +71,7 @@ services:
       timeout: 5s
       retries: 10
     networks:
-      spro:
+      spro_net:
         ipv4_address: 172.27.1.13
 
 volumes:
@@ -71,7 +79,7 @@ volumes:
     driver: local
 
 networks:
-  spro:
+  spro_net:
     ipam:
       driver: default
       config:
