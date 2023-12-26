@@ -1,0 +1,75 @@
+syntax = "proto3";
+package users.v1;
+
+import "google/protobuf/empty.proto";
+
+option go_package = "github.com/yassi-github/s-progress/gen/users/v1;usersv1proto";
+
+message CreateRequest {
+  string user_name = 1;
+  string email = 2;
+  string password = 3;
+  bool is_active = 4;
+  bool is_superuser = 5;
+}
+
+message CreateResponse {
+  int32 id = 1;
+  string user_name = 2;
+  string email = 3;
+  string password = 4;
+  bool is_active = 5;
+  bool is_superuser = 6;
+}
+
+message FindRequest {
+  int32 id = 1;
+}
+
+message FindResponse {
+  int32 id = 1;
+  string user_name = 2;
+  string email = 3;
+  string password = 4;
+  bool is_active = 5;
+  bool is_superuser = 6;
+}
+
+message FindAllRequest { google.protobuf.Empty empty = 1; }
+
+message FindAllResponse { repeated FindResponse find_response = 1; }
+
+message UpdateRequest {
+  int32 id = 1;
+  string user_name = 2;
+  string email = 3;
+  string password = 4;
+  bool is_active = 5;
+  bool is_superuser = 6;
+}
+
+message UpdateResponse {
+  int32 id = 1;
+  string user_name = 2;
+  string email = 3;
+  string password = 4;
+  bool is_active = 5;
+  bool is_superuser = 6;
+}
+
+message DeleteRequest {
+  int32 id = 1;
+}
+
+message DeleteResponse {
+  string result = 1;
+}
+
+// /api.v1.UsersService/{{ rpcFunc }}
+service UsersService {
+  rpc Create(CreateRequest) returns (CreateResponse) {}
+  rpc FindAll(FindAllRequest) returns (FindAllResponse) {}
+  rpc Find(FindRequest) returns (FindResponse) {}
+  rpc Update(UpdateRequest) returns (UpdateResponse) {}
+  rpc Delete (DeleteRequest) returns (DeleteResponse) {}
+}

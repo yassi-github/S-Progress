@@ -72,7 +72,7 @@ case ${SUBCMD} in
     ;;
 
 	"clean" )
-		rm -rf go.sum bin/*
+		rm -rf go.sum bin/* gen
 	;;
 
 	"exec" )
@@ -93,5 +93,9 @@ case ${SUBCMD} in
 
 	"deploy" )
 		deploy
+	;;
+
+	"buf" )
+		buf lint && buf generate
 	;;
 esac
