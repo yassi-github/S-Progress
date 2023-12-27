@@ -102,4 +102,8 @@ case ${SUBCMD} in
 	"sqlc" )
 		docker run --rm -v $(pwd):/src -w /src -u 1000:1000 sqlc/sqlc ${ARGS}
 	;;
+
+	"itest" )
+		docker run -it -v $(pwd):/code/ --network s-progress_spro_net itest:latest ${ARGS:-"./itest/"}
+	;;
 esac
