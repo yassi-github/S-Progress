@@ -46,7 +46,7 @@ exec_go_with_stdoutput() {
 }
 
 deploy() {
-    docker build -t alpine-cmd alpine-cmd
+    docker build -t s-progress-shell s-progress-shell
 
     mkdir -p docker_conf/nginx/ssl
     mkdir -p answer/script_files

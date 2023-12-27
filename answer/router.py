@@ -54,7 +54,7 @@ def docker_run_container(client: docker.models.containers.Container, host_projec
     host_projectdir: str = os.getenv('HOSTPWD')
     # コンテナの作成
     try:
-        container = client.containers.run(image="alpine-cmd", command=command, detach=True, network_disabled=True, mem_limit='128m', pids_limit=100,
+        container = client.containers.run(image="s-progress-shell", command=command, detach=True, network_disabled=True, mem_limit='128m', pids_limit=100,
                                           cpu_period=50000, cpu_quota=25000, ulimits=[docker.types.Ulimit(name='fsize', soft=1000000, hard=10000000)],
                                           runtime="runsc", name=name, volumes={f'{host_projectdir}/answer/script_files/': {'bind': '/script_files/', 'mode': 'rw'}})
     except docker.errors.ContainerError as exc:
