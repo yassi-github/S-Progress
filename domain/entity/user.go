@@ -9,6 +9,6 @@ type User struct {
 }
 
 type UserWithId struct {
-	Id          int32
-	User        *User
+	Id   int32
+	User *User
 }

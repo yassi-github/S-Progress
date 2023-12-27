@@ -98,4 +98,8 @@ case ${SUBCMD} in
 	"buf" )
 		buf lint && buf generate
 	;;
+
+	"sqlc" )
+		docker run --rm -v $(pwd):/src -w /src -u 1000:1000 sqlc/sqlc ${ARGS}
+	;;
 esac

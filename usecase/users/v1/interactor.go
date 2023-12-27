@@ -40,7 +40,7 @@ func (i *interactor) Create(ctx context.Context, name, email, password string, i
 		return nil, err
 	}
 	userWithId := &entity.UserWithId{
-		Id: id,
+		Id:   id,
 		User: user,
 	}
 	return userWithId, nil

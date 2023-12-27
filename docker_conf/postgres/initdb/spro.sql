@@ -57,10 +57,55 @@ ALTER SEQUENCE public.problems_id_seq OWNED BY public.problems.id;
 
 
 --
+-- Name: users; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.users (
+    id integer NOT NULL,
+    username text NOT NULL,
+    email text,
+    hashed_password text,
+    is_active boolean,
+    is_superuser boolean
+);
+
+
+ALTER TABLE public.users OWNER TO root;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+--
+
+CREATE SEQUENCE public.users_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_id_seq OWNER TO root;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
 -- Name: problems id; Type: DEFAULT; Schema: public; Owner: root
 --
 
 ALTER TABLE ONLY public.problems ALTER COLUMN id SET DEFAULT nextval('public.problems_id_seq'::regclass);
+
+
+--
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
 
 --
@@ -75,10 +120,25 @@ COPY public.problems (id, title, text, correct_ans) FROM stdin;
 
 
 --
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: root
+--
+
+COPY public.users (id, username, email, hashed_password, is_active, is_superuser) FROM stdin;
+\.
+
+
+--
 -- Name: problems_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
 --
 
 SELECT pg_catalog.setval('public.problems_id_seq', 1, false);
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 1, false);
 
 
 --
@@ -87,6 +147,14 @@ SELECT pg_catalog.setval('public.problems_id_seq', 1, false);
 
 ALTER TABLE ONLY public.problems
     ADD CONSTRAINT problems_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
 
 
 --

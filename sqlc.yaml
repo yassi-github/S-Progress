@@ -1,0 +1,12 @@
+version: "2"
+sql:
+  - engine: "postgresql"
+    queries: "infra/db/users/v1/query.sql"
+    schema: "infra/db/users/v1/schema.sql"
+    gen:
+      go:
+        package: "users"
+        out: "infra/db/users/v1"
+        sql_package: "pgx/v5"
+        # sql_package: "database/sql"
+        emit_pointers_for_null_types: true
