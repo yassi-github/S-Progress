@@ -104,6 +104,7 @@ case ${SUBCMD} in
 	;;
 
 	"itest" )
-		docker run --rm -it -v $(pwd):/code/ --network s_progress_network itest:latest ${ARGS:-"./itest/"}
+		tty 2>/dev/null 1>&2 && TTY_OPT="-t" || TTY_OPT=""
+		docker run --rm ${TTY_OPT} -v $(pwd):/code/ --network s_progress_network itest:latest ${ARGS:-"./itest/"}
 	;;
 esac
