@@ -1,0 +1,17 @@
+name: itest
+
+on: push
+
+jobs:
+  integration-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 'go'
+      - name: compose up
+        run: ./build.sh deploy
+      - name: build image for integration test
+        run: docker build -t itest -f ./itest/Dockerfile ./itest/
+      - name: integration test
+        run: ./build.sh itest
