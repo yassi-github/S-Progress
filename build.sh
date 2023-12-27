@@ -55,7 +55,7 @@ deploy() {
     chown `echo $USER` .
     cd ../../..
 
-    docker compose up -d --build
+    docker compose -p s-progress up -d --build
 }
 
 case ${SUBCMD} in
