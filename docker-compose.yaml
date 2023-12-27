@@ -1,15 +1,16 @@
 version: '3'
 services:
   builder:
+    container_name: s-progress-builder
     build:
       context: .
       dockerfile: Dockerfile.builder
     networks:
-      - spro_net
+      - s_progress_network
 
 # Nginxコンテナ
   nginx:
-    container_name: nginx_spro
+    container_name: s-progress-nginx
     image: nginx:alpine
     depends_on:
       - app
@@ -24,7 +25,7 @@ services:
       - ./docker_conf/nginx/conf.d:/etc/nginx/conf.d
       - ./docker_conf/nginx/ssl:/etc/nginx/ssl
     networks:
-      spro_net:
+      s_progress_network:
         ipv4_address: 172.27.1.11
 
 # アプリケーションコンテナ
@@ -32,7 +33,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: app_spro
+    container_name: s-progress-app
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
@@ -51,14 +52,14 @@ services:
     restart: always
     tty: true
     networks:
-      spro_net:
+      s_progress_network:
         ipv4_address: 172.27.1.12
 
 
 # DBコンテナ
   db:
     image: postgres:12.4-alpine
-    container_name: db_spro
+    container_name: s-progress-db
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=password
@@ -66,7 +67,7 @@ services:
       - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --locale=C
       - PGDATA=/var/lib/postgresql/data/spro
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - s_progress_db_data:/var/lib/postgresql/data
       - ./docker_conf/postgres/initdb:/docker-entrypoint-initdb.d
     ports:
       - "5432:5432"
@@ -75,15 +76,17 @@ services:
       timeout: 5s
       retries: 10
     networks:
-      spro_net:
+      s_progress_network:
         ipv4_address: 172.27.1.13
 
 volumes:
-  db_data:
+  s_progress_db_data:
+    name: s_progress_db_data
     driver: local
 
 networks:
-  spro_net:
+  s_progress_network:
+    name: s_progress_network
     ipam:
       driver: default
       config:

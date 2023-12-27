@@ -104,6 +104,6 @@ case ${SUBCMD} in
 	;;
 
 	"itest" )
-		docker run -it -v $(pwd):/code/ --network s-progress_spro_net itest:latest ${ARGS:-"./itest/"}
+		docker run --rm -it -v $(pwd):/code/ --network s_progress_network itest:latest ${ARGS:-"./itest/"}
 	;;
 esac

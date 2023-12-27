@@ -1,0 +1,10 @@
+/.git/
+/.github/
+/bin/
+/itest/
+/.gitignore
+/build.sh
+/docker-comopse.yaml
+/Dockerfile
+/Dockerfile.builder
+/README.md
