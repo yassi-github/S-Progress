@@ -96,7 +96,9 @@ case ${SUBCMD} in
 	;;
 
 	"buf" )
+		cd ./proto
 		buf lint && buf generate
+		cd ..
 	;;
 
 	"sqlc" )

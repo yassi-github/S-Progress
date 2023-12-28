@@ -8,7 +8,7 @@ import (
 	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	v1 "github.com/yassi-github/s-progress/gen/users/v1"
+	v1 "github.com/yassi-github/s-progress/proto/gen/users/v1"
 	http "net/http"
 	strings "strings"
 )

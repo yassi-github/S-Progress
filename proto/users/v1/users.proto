@@ -3,7 +3,7 @@ package users.v1;
 
 import "google/protobuf/empty.proto";
 
-option go_package = "github.com/yassi-github/s-progress/gen/users/v1;usersv1proto";
+option go_package = "github.com/yassi-github/s-progress/proto/gen/users/v1;usersv1proto";
 
 message CreateRequest {
   string user_name = 1;
