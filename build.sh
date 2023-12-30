@@ -18,20 +18,18 @@ SUBCMD="$1"
 shift
 ARGS="$@"
 
-CMD_NAME="$([ -d ./cmd ] && ls ./cmd/ | head -n1 || basename ${PWD})"
-
 # go command by docker.
 # add GOPRIVATE if u use private repo package.
 # e.g. --env GOPRIVATE="github.com/yassi-github/dotsyaml"
 go() {
-    docker run -i --rm \
+    docker run --rm \
         -v $(realpath "${HOME}")/go:/go \
         -v $(realpath "${HOME}")/.ssh:/root/.ssh \
         -v $(realpath "${HOME}")/.cache:/root/.cache \
         -v $(realpath "${PWD}"):${PWD} \
         -w $(realpath "${PWD}") \
         golang:latest \
-        sh -c "go $@ ; echo \$? > /tmp/EXITCODE && chown $(id -u) ./* ; chgrp $(id -g) ./* ; cat /tmp/EXITCODE"
+        sh -c "go $@ ; echo \$? && chown -R $(id -u) . ; chgrp -R $(id -g) ."
 }
 
 exec_go_with_stdoutput() {
@@ -105,6 +103,26 @@ deploy() {
     docker compose -p s-progress up -d --build
 }
 
+# [a,b,c] -> [b,c]
+# usage:
+# shifted_array=$( shift_array "${array[@]}" )
+shift_array() {
+    local array=( ${1} )
+    if [ ${#array[@]} -lt 1 ]; then
+        # no enough length
+        echo ${array[@]}
+        return 1
+    fi
+
+    for i in $( seq 2 ${#array[@]} ); do
+        array[$(( ${i} - 2 ))]=${array[$(( ${i} - 1 ))]}
+    done
+    array[$(( ${#array[@]} - 1 ))]=""
+    array=( ${array[@]} )
+
+    echo ${array[@]}
+}
+
 run() {
     case ${SUBCMD} in
         "buf" )
@@ -125,8 +143,18 @@ run() {
             rm -f go.sum ./bin/*
         ;;
 
+        # run <keyword> [args ...]
+        #   keyword: a piece of binary name to run. if keyword is not unique or not provided, target binary will be top of asc sort.
+        # for example, "run c localhost:13333" would run "./bin/client localhost:13333"
+        # and "run s" and also "run r" would run "./bin/server" (because both "s" and "r" is uniqly contained in "server" (never appear in "client"))
         "run" )
-            ./build.sh && ./bin/${CMD_NAME} ${ARGS}
+            _argsarr=( ${ARGS} )
+            runcmd="${_argsarr[0]}"
+            CMD_NAME="$(echo "$([ -d ./cmd ] && ls ./cmd/ || exec_go_with_stdoutput list -f \'{{if eq .Name \"main\"}}{{.Dir}}{{end}}\' -buildvcs=false ./... | xargs -i{} basename {} )" | grep "${runcmd}" | head -n1)"
+            ARGS=$( shift_array "${_argsarr[@]}" )
+
+            echo -e "run \`./bin/${CMD_NAME} ${ARGS}\` ...\n"
+            ./bin/${CMD_NAME} ${ARGS}
         ;;
 
         "fmt" )
