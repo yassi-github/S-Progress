@@ -27,6 +27,7 @@ go() {
     docker run -i --rm \
         -v $(realpath "${HOME}")/go:/go \
         -v $(realpath "${HOME}")/.ssh:/root/.ssh \
+        -v $(realpath "${HOME}")/.cache:/root/.cache \
         -v $(realpath "${PWD}"):${PWD} \
         -w $(realpath "${PWD}") \
         golang:latest \
@@ -36,15 +37,16 @@ go() {
 exec_go_with_stdoutput() {
     ARGS="$@"
 
-    tmpfile="/tmp/${RANDOM}"
-    STDOUT=$(go "${ARGS}" 2>${tmpfile})
-    STDERR=$(cat ${tmpfile})
-    rm -f ${tmpfile}
+    tmpfile_err="/tmp/${RANDOM}"
+    tmpfile_rc="/tmp/${RANDOM}"
+    # separate std{out,err} into tmpfile and output stdout(excluding lastline; rc) to terminal with non-blocking.
+    go "${ARGS}" 2> >(tee ${tmpfile_err} >&2) | tee >(tail -n1 > ${tmpfile_rc}) | sed '$ d'
+    RC=$(cat ${tmpfile_rc})
+    STDERR=$(cat ${tmpfile_err})
+    rm -f ${tmpfile_rc} ${tmpfile_err}
     if [[ "${STDERR}" != "" ]]; then
-        echo "${STDERR}"
-
         # change string color to Yellow if interactive terminal
-        if [[ "${PS1}" != "" ]]; then
+        if tty >/dev/null 2>&1; then
             printf "\033[33m"
             endis_import "${STDERR}"
             printf "\033[m"
@@ -53,9 +55,7 @@ exec_go_with_stdoutput() {
         fi
     fi
 
-    # ignore exitcode
-    [[ "${STDOUT}" =~ ^[0-9]*$ ]] || echo "${STDOUT}" | sed "$ d"
-    exit $(echo "${STDOUT}" | tail -n 1)
+    exit ${RC}
 
 }
 
@@ -87,7 +87,7 @@ disable_import() {
         target_file=$(echo "${line}" | awk -F':' '{print $1}')
         target_linenum=$(echo "${line}" | awk -F':' '{print $2}')
         # comment out with "// "
-        sed -i "${target_linenum}s%^%// %" ${target_file}
+        sed -i "${target_linenum}s%^\([ \t]*\)%\1// %" ${target_file}
         echo "Commented out: ${target_file}:${target_linenum}"
     done
 }
@@ -134,7 +134,7 @@ run() {
         ;;
 
         "exec" )
-            exec_go_with_stdoutput "${ARGS}"
+            exec_go_with_stdoutput ${ARGS}
         ;;
 
         "test" )
@@ -159,7 +159,7 @@ $(cat ./build.sh | tr '\n'  '\0' | grep -ao "case.*esac" | tr '\0' '\n' | grep -
         ;;
 
         "build" )
-            exec_go_with_stdoutput 'get -u ./... && go mod tidy && go build -buildvcs=false -o bin/ ./...'
+            exec_go_with_stdoutput 'get -u ./... && go mod tidy && go build -v -buildvcs=false -o bin/ ./...'
         ;;
 
         * )
